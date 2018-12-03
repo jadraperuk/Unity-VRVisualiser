@@ -74,14 +74,15 @@ namespace threeBodyProblemIntegrator
 {
     class Program
     {
+
         static void Main()
         {
-            ThreeBodyProblemIntegration();
+            ThreeBodyProblemIntegration(0.94949344, 0.39329306, -0.00426519, 2.0 * Math.PI);
         }
 
-        public static void ThreeBodyProblemIntegration()
+        public static void ThreeBodyProblemIntegration(double xVal, double yVal, double zVal, double TFinal)
         {
-            var tFinal = 2.0 * Math.PI;                     // Final integration time
+            var tFinal = TFinal;                     // Final integration time
 
             // Define initial conditions
 
@@ -96,15 +97,15 @@ namespace threeBodyProblemIntegrator
             //
             // Hence, set mu = 3.03e-06 in the integration function
 
-            var x = x0[0] = 0.94949344;                    // Initial x
-            var y = x0[1] = 0.39329306;                    // Initial y
-            var z = x0[2] = -0.00426519;                   // Initial z
+            var x = x0[0] = xVal;                    // Initial x
+            var y = x0[1] = yVal;                    // Initial y
+            var z = x0[2] = zVal;                   // Initial z
             var dxdt = x0[3] = 0.00029175;                 // Initial x velocity
             var dydt = x0[4] = -0.03870912;                // Initial y velocity
             var dzdt = x0[5] = -0.00103354;                // Initial z velocity
 
             var maxStep = 0.005;                           // Maximum timestep
-
+            var minStep = 0.001;
             var absTol = 1e-012;                           // Absolute integration
                                                            // tolerance
 
@@ -115,7 +116,8 @@ namespace threeBodyProblemIntegrator
             {
                 AbsoluteTolerance = absTol,
                 RelativeTolerance = relTol,
-                MaxStep = maxStep
+                MaxStep = maxStep,
+                MinStep = minStep
             };                                             // Integrator options
 
             // Solve the ODEs: create an ODE class
@@ -126,6 +128,12 @@ namespace threeBodyProblemIntegrator
 
             // Evaluate the ODE at the timesteps and store the result in
             // data_points
+
+            // rob penn edit
+            // find orbital manager gameobject
+            GameObject orbitalmanager = GameObject.Find("OrbitalManager");
+            // cache orbit management script component to save on getcomponent requests during loop
+            OrbitManagement OM = orbitalmanager.GetComponent<OrbitManagement>();
 
             foreach (var solPoint in Ode.RK547M(0.0, x0, f, opts).SolveTo(tFinal))
             {
@@ -145,14 +153,14 @@ namespace threeBodyProblemIntegrator
 
                 // convert floats to vector3 positions
                 Vector3 positions = new Vector3(xpos, ypos, zpos);
-                // find orbital manager gameobject
-                GameObject orbitalmanager = GameObject.Find("OrbitalManager");
+                
                 // instantiate orbital objects at given positions
-                orbitalmanager.GetComponent<OrbitManagement>().PointCreator(positions);
+                OM.PointCreator(positions);
                 //unsuccessful attempt at object pooling 
                 //orbitalmanager.GetComponent<ObjectPooling>().SpawnFromPool("OrbitalPoint", positions, Quaternion.identity);
             }
 
+            OM.RenderPoints();
         }
 
         public static Vector f(double t, Vector xIn)
