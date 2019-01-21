@@ -77,10 +77,10 @@ namespace threeBodyProblemIntegrator
 
         static void Main()
         {
-            ThreeBodyProblemIntegration(0.94949344, 0.39329306, -0.00426519, 2.0 * Math.PI);
+            ThreeBodyProblemIntegration(0.94949344, 0.39329306, -0.00426519, 2.0 * Math.PI, 1);
         }
 
-        public static void ThreeBodyProblemIntegration(double xVal, double yVal, double zVal, double TFinal)
+        public static void ThreeBodyProblemIntegration(double xVal, double yVal, double zVal, double TFinal, int scale)
         {
             var tFinal = TFinal;                     // Final integration time
 
@@ -135,6 +135,11 @@ namespace threeBodyProblemIntegrator
             // cache orbit management script component to save on getcomponent requests during loop
             OrbitManagement OM = orbitalmanager.GetComponent<OrbitManagement>();
 
+            //find orbiter game object
+            GameObject orbiter = GameObject.Find("Orbiter");
+            // cache Physics orbit script component to save on getcomponent requests during loop
+            FollowTrajectory PO = orbiter.GetComponent<FollowTrajectory>();
+
             foreach (var solPoint in Ode.RK547M(0.0, x0, f, opts).SolveTo(tFinal))
             {
                 Console.WriteLine("Time={0}, x={1}, y={2}, z={3}",
@@ -152,15 +157,26 @@ namespace threeBodyProblemIntegrator
                 float zpos = (float)solPoint.X[1];
 
                 // convert floats to vector3 positions
-                Vector3 positions = new Vector3(xpos, ypos, zpos);
+                Vector3 positions = new Vector3(xpos*scale, ypos*scale, zpos*scale);
                 
                 // instantiate orbital objects at given positions
                 OM.PointCreator(positions);
+                PO.PositionCreator(positions);
                 //unsuccessful attempt at object pooling 
                 //orbitalmanager.GetComponent<ObjectPooling>().SpawnFromPool("OrbitalPoint", positions, Quaternion.identity);
+
+                //float Xvel = (float)solPoint.X[3];
+                //float Yvel = (float)solPoint.X[5];
+                //float Zvel = (float)solPoint.X[4];
+
+                //Vector3 Velocities = new Vector3(Xvel, Yvel, Zvel);
+
+                //PO.VelocityGenerator(Velocities);
+                //PO.SetMass((float)tFinal);
             }
 
             OM.RenderPoints();
+            PO.SetPath();
         }
 
         public static Vector f(double t, Vector xIn)
