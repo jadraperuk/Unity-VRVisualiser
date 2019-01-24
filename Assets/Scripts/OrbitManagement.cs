@@ -18,33 +18,31 @@ namespace threeBodyProblemIntegrator {
         public double tFinal = 2.0 * Math.PI;
         private static double Mu = 3.003e-06;
 
-        private int startingscale = 1;
-        private int currentscale = 1;
-        public int newscale = 1;
+        private float startingscale = 1;
+        private float OrbiterStartingScale;
+        private float currentscale = 1;
+        public float newscale = 1;
 
-        public List<Vector3> orbitalpoints;
-        //public List<Vector3> Velocities;
-        private LineRenderer LR;
-        //public Color col; //used for tube renderer, but doesn't actually color tube, tube colour uses material.        
+        public List<GameObject> orbitalobjects;
+        private LineRenderer LR;        
 
         // all math in 3BPI uses Z-up, not Y-up.
 
         void Start()
         {
-            //edited out for scaling test
             float mu = (float)Mu;
             Sun.transform.localPosition = new Vector3(-mu, 0, 0);
             Earth.transform.localPosition = new Vector3(1 - mu, 0, 0);
             Sun.SetActive(true);
             Earth.SetActive(true);            
             LR = GetComponent<LineRenderer>();
-            orbitalpoints = new List<Vector3>();
-            TBP(startingscale);
+            TBP();
+            OrbiterStartingScale = Orbiter.GetComponent<Transform>().localScale.x;
         }
 
-        public void TBP(int Scaling)
+        public void TBP()
         {
-            Program.ThreeBodyProblemIntegration(startingX, startingY, startingZ, tFinal, Scaling);
+            Program.ThreeBodyProblemIntegration(startingX, startingY, startingZ, tFinal);
 
             // set X[0] in 3BPI to a range of 0.15 / 0.85
             // set Tfinal in 3BPI to a range between 0.005 / 0.5
@@ -55,39 +53,39 @@ namespace threeBodyProblemIntegrator {
         {
             if (currentscale != newscale)
             {
-                orbitalpoints.Clear();
-                Orbiter.GetComponent<FollowTrajectory>().orbitalpoints.Clear();
-                TBP(newscale);
+                FollowTrajectory FT = Orbiter.GetComponent<FollowTrajectory>();
+                FT.orbitalpoints.Clear();
                 gameObject.transform.localScale = new Vector3(newscale, newscale, newscale);
-                Orbiter.transform.localScale = Orbiter.transform.localScale * newscale;
+                Orbiter.transform.localScale = new Vector3(OrbiterStartingScale * newscale, OrbiterStartingScale * newscale, OrbiterStartingScale * newscale);
                 currentscale = newscale;
+                RenderPoints();
+                for (int i = 0; i < orbitalobjects.Count; i++)
+                {
+                    FT.PositionCreator(orbitalobjects[i].transform.position);
+                }
+                FT.SetPath();
             }
         }
 
         public void PointCreator(Vector3 position)
         {
-            //create orbital point object at position - render heavy.
-            //Instantiate(orbitalindicator, position, Quaternion.identity);
-            //dont instantiate, create array of positions.
-            orbitalpoints.Add(position);            
+            //create orbital point object at position
+            GameObject orbitalchild = Instantiate(orbitalindicator, position, Quaternion.identity) as GameObject;
+            orbitalchild.transform.parent = gameObject.transform;
+            orbitalobjects.Add(orbitalchild);
         }
 
         public void RenderPoints()
         {
-            // render tube
-            //TubeRenderer TR = GetComponent<TubeRenderer>();
-            //Vector3[] pointlist = orbitalpoints.ToArray();
-            //TR.SetPoints(pointlist, 0.005f, col);
-            // tube renderer is expensive to render.
-
-            // render line
-            for (int i = 0; i < orbitalpoints.Count; i++)
-            {                
-                LR.positionCount = orbitalpoints.Count;
-                LR.startWidth = 0.001f*currentscale;
-                LR.endWidth = 0.001f*currentscale;
-                LR.SetPosition(i, orbitalpoints[i]);
+            // render line between all orbitalobjects
+            LR.positionCount = orbitalobjects.Count;
+            LR.startWidth = 0.001f * currentscale;
+            LR.endWidth = 0.001f * currentscale;
+            for (int i = 0; i < orbitalobjects.Count; i++)
+            {                              
+                LR.SetPosition(i, orbitalobjects[i].transform.position);
             }
+
             // line renderer most efficient render so far.
         }        
     }

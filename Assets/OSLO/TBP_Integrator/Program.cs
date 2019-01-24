@@ -77,10 +77,10 @@ namespace threeBodyProblemIntegrator
 
         static void Main()
         {
-            ThreeBodyProblemIntegration(0.94949344, 0.39329306, -0.00426519, 2.0 * Math.PI, 1);
+            ThreeBodyProblemIntegration(0.94949344, 0.39329306, -0.00426519, 2.0 * Math.PI);
         }
 
-        public static void ThreeBodyProblemIntegration(double xVal, double yVal, double zVal, double TFinal, int scale)
+        public static void ThreeBodyProblemIntegration(double xVal, double yVal, double zVal, double TFinal)
         {
             var tFinal = TFinal;                     // Final integration time
 
@@ -157,7 +157,7 @@ namespace threeBodyProblemIntegrator
                 float zpos = (float)solPoint.X[1];
 
                 // convert floats to vector3 positions
-                Vector3 positions = new Vector3(xpos*scale, ypos*scale, zpos*scale);
+                Vector3 positions = new Vector3(xpos, ypos, zpos);
                 
                 // instantiate orbital objects at given positions
                 OM.PointCreator(positions);

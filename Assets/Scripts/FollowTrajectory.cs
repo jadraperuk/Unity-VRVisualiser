@@ -16,14 +16,7 @@ public class FollowTrajectory : MonoBehaviour {
     public float speed = 1f;
     public GameObject OM;
     public float timescale = 1;
-
-
-	// Use this for initialization
-	void Start () {
-        SetPath();
-        //Invoke("SetPath", 1f);
-	}
-
+    	
     public void PositionCreator(Vector3 position)
     {
         orbitalpoints.Add(position);
@@ -59,7 +52,6 @@ public class FollowTrajectory : MonoBehaviour {
     private void FollowPath()
     {
         // rotate towards the target
-        //transform.forward = Vector3.RotateTowards(transform.forward, targetposition.position - transform.position, speed * Time.deltaTime, 0.0f);
         transform.LookAt(nextposition);
 
         // move towards the target

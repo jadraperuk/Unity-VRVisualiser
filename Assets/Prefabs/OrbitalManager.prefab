@@ -210,7 +210,7 @@ MonoBehaviour:
   startingZ: -0.00426519
   tFinal: 6.283185307179586
   newscale: 1
-  orbitalpoints: []
+  orbitalobjects: []
 --- !u!120 &120870686573013508
 LineRenderer:
   m_ObjectHideFlags: 1
