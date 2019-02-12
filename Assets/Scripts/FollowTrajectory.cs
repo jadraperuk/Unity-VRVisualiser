@@ -33,6 +33,7 @@ public class FollowTrajectory : MonoBehaviour {
         targetposition.rotation = Quaternion.identity;
 
         nextposition = positionsList[1];
+        currentposition = 0;
     }
 
     private void Update()
@@ -59,10 +60,19 @@ public class FollowTrajectory : MonoBehaviour {
         //transform.position = Vector3.MoveToward(transform.position, targetposition.position, speed * Time.deltaTime);
 
         if (transform.position == targetposition.position)
-        {
-            currentposition++;
-            targetposition.position = positionsList[currentposition];
-            nextposition = positionsList[currentposition + 1];
+        {           
+            if (currentposition +2 >= positionsList.Length)
+            {
+                nextposition = positionsList[0];
+                currentposition = 0;
+            }
+            else
+            {
+                currentposition++;
+                targetposition.position = positionsList[currentposition];
+                nextposition = positionsList[currentposition + 1];
+            }
+            
         }
     }
 
