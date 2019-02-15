@@ -275,7 +275,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1662547658}
+  - {fileID: 857153879}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1054,12 +1054,36 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1d6601fa64e04444994747b2e5bd1d6, type: 2}
   m_IsPrefabAsset: 0
---- !u!114 &281957860 stripped
+--- !u!114 &281957860
 MonoBehaviour:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 114258614712536936, guid: d1d6601fa64e04444994747b2e5bd1d6,
     type: 2}
   m_PrefabInternal: {fileID: 281957859}
+  m_GameObject: {fileID: 1492305224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f0ab999539a613449b207564146142a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orbitalindicator: {fileID: 0}
+  Orbiter: {fileID: 0}
+  newscale: 0
+  _newlinewidth: 0
+  _newtolerance: 0
+  RawPositions: []
+  RawJulianTime: []
+  orbitalobjects: []
+  LR: {fileID: 0}
+  Line: 0
+  Radius: 0
+  LineColour: {r: 0, g: 0, b: 0, a: 0}
+  year: 0
+  month: 0
+  day: 0
+  hour: 0
+  minute: 0
+  second: 0
 --- !u!1 &314327455
 GameObject:
   m_ObjectHideFlags: 0
@@ -2213,52 +2237,52 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTriggerReleased:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTriggerTouchStart:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTriggerTouchEnd:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTriggerHairlineStart:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTriggerHairlineEnd:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTriggerClicked:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTriggerUnclicked:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTriggerAxisChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripPressed:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripReleased:
     m_PersistentCalls:
       m_Calls:
@@ -2274,244 +2298,202 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripTouchStart:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripTouchEnd:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripHairlineStart:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripHairlineEnd:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripClicked:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripUnclicked:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripAxisChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTouchpadPressed:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTouchpadReleased:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTouchpadTouchStart:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTouchpadTouchEnd:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTouchpadAxisChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnButtonOnePressed:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnButtonOneReleased:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnButtonOneTouchStart:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnButtonOneTouchEnd:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnButtonTwoPressed:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnButtonTwoReleased:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnButtonTwoTouchStart:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnButtonTwoTouchEnd:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnStartMenuPressed:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnStartMenuReleased:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasPointerOn:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasPointerOff:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasPointerSet:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasGrabOn:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasGrabOff:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasUseOn:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasUseOff:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasUIClickOn:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasUIClickOff:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasMenuOn:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasMenuOff:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnControllerEnabled:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnControllerDisabled:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnControllerIndexChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnControllerModelAvailable:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnControllerVisible:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnControllerHidden:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
---- !u!1001 &639828767
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4163635729265200, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163635729265200, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163635729265200, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163635729265200, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163635729265200, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163635729265200, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163635729265200, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163635729265200, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
-  m_IsPrefabAsset: 0
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
 --- !u!1 &644715789
 GameObject:
   m_ObjectHideFlags: 0
@@ -3166,6 +3148,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selected: 0
+--- !u!1 &857153878
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 281957859}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 857153879}
+  m_Layer: 0
+  m_Name: Missing Prefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &857153879
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 281957859}
+  m_GameObject: {fileID: 857153878}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1662547659}
+  - {fileID: 1662547658}
+  - {fileID: 1492305225}
+  m_Father: {fileID: 31600711}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &937274511
 GameObject:
   m_ObjectHideFlags: 0
@@ -4365,6 +4378,21 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1216160125}
   m_CullTransparentMesh: 0
+--- !u!1 &1224041664
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 281957859}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1662547658}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1249361555 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 159396, guid: 4d293c8e162f3874b982baadd71153d2,
@@ -4995,6 +5023,48 @@ MonoBehaviour:
   gripAxisName: RightGrip
   touchpadHorizontalAxisName: RightTrackpadHorizontal
   touchpadVerticalAxisName: RightTrackpadVertical
+--- !u!1001 &1427623870
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4801446788528242, guid: 36897f7b9fde8ab478b0652bfbf11ea3, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801446788528242, guid: 36897f7b9fde8ab478b0652bfbf11ea3, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801446788528242, guid: 36897f7b9fde8ab478b0652bfbf11ea3, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801446788528242, guid: 36897f7b9fde8ab478b0652bfbf11ea3, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801446788528242, guid: 36897f7b9fde8ab478b0652bfbf11ea3, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801446788528242, guid: 36897f7b9fde8ab478b0652bfbf11ea3, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801446788528242, guid: 36897f7b9fde8ab478b0652bfbf11ea3, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801446788528242, guid: 36897f7b9fde8ab478b0652bfbf11ea3, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 36897f7b9fde8ab478b0652bfbf11ea3, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1449965729
 GameObject:
   m_ObjectHideFlags: 0
@@ -5186,6 +5256,35 @@ MonoBehaviour:
   startMenuAlias: 102
   touchModifier: 116
   hairTouchModifier: 104
+--- !u!1 &1492305224
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 281957859}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1492305225}
+  - component: {fileID: 281957860}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1492305225
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 281957859}
+  m_GameObject: {fileID: 1492305224}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 857153879}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1508398443 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 192944, guid: 4d293c8e162f3874b982baadd71153d2,
@@ -5517,16 +5616,95 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1656750793}
   m_CullTransparentMesh: 0
---- !u!1 &1662547657 stripped
+--- !u!1 &1662547657
 GameObject:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 1198702483434230, guid: d1d6601fa64e04444994747b2e5bd1d6,
     type: 2}
   m_PrefabInternal: {fileID: 281957859}
---- !u!4 &1662547658 stripped
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1662547659}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1662547658
 Transform:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 4302902151158742, guid: d1d6601fa64e04444994747b2e5bd1d6,
     type: 2}
   m_PrefabInternal: {fileID: 281957859}
+  m_GameObject: {fileID: 1224041664}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 857153879}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1662547659
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 281957859}
+  m_GameObject: {fileID: 1662547657}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 857153879}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1668798698
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4163635729265200, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163635729265200, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163635729265200, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163635729265200, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163635729265200, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163635729265200, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163635729265200, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163635729265200, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1638831499432170, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b0fd0737df300044dbd2b0814eeec2b6, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1774666699
 GameObject:
   m_ObjectHideFlags: 0
@@ -5895,52 +6073,52 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTriggerReleased:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTriggerTouchStart:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTriggerTouchEnd:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTriggerHairlineStart:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTriggerHairlineEnd:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTriggerClicked:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTriggerUnclicked:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTriggerAxisChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripPressed:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripReleased:
     m_PersistentCalls:
       m_Calls:
@@ -5956,202 +6134,202 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripTouchStart:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripTouchEnd:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripHairlineStart:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripHairlineEnd:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripClicked:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripUnclicked:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnGripAxisChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTouchpadPressed:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTouchpadReleased:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTouchpadTouchStart:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTouchpadTouchEnd:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnTouchpadAxisChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnButtonOnePressed:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnButtonOneReleased:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnButtonOneTouchStart:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnButtonOneTouchEnd:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnButtonTwoPressed:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnButtonTwoReleased:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnButtonTwoTouchStart:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnButtonTwoTouchEnd:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnStartMenuPressed:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnStartMenuReleased:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasPointerOn:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasPointerOff:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasPointerSet:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasGrabOn:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasGrabOff:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasUseOn:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasUseOff:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasUIClickOn:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasUIClickOff:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasMenuOn:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnAliasMenuOff:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnControllerEnabled:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnControllerDisabled:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnControllerIndexChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnControllerModelAvailable:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnControllerVisible:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
   OnControllerHidden:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
-      Assembly-CSharp, Version=1.0.6981.29341, Culture=neutral, PublicKeyToken=null
+      Assembly-CSharp, Version=1.0.6985.29343, Culture=neutral, PublicKeyToken=null
 --- !u!1 &1809608971
 GameObject:
   m_ObjectHideFlags: 0

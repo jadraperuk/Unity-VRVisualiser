@@ -58,9 +58,6 @@ MonoBehaviour:
       Units: 
     Orbits: []
   Satellites: []
-  satelliteObject: {fileID: 1728962188446272, guid: b139490968f43a049ac34ea0c9974208,
+  OrbitManager: {fileID: 1440929637323444, guid: 9309f87afbb13bc4eb5136d86f439b62,
     type: 2}
-  orbitpoint: {fileID: 1892811845398980, guid: 54ed12ec5415cab42a09454756297974, type: 2}
-  OrbitManager: {fileID: 1198702483434230, guid: d1d6601fa64e04444994747b2e5bd1d6,
-    type: 2}
-  DeScalerValue: 1000
+  _ScaleValue: 1000
