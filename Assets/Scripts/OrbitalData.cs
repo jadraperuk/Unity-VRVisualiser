@@ -43,7 +43,7 @@
         public Display Display;
 
         [JsonProperty("radius")]
-        public long Radius;
+        public double Radius;
 
         [JsonProperty("eph")]        
         //public Eph[] eph;

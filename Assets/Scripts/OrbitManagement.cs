@@ -6,19 +6,9 @@ using System.Linq;
 
 public class OrbitManagement : MonoBehaviour
 {
-    //public GameObject Sun;
-    //public GameObject Earth;
     public GameObject orbitalindicator;
     public GameObject Orbiter;
-    #region no longer needed TBP values
-    //// all math in 3BPI uses Z-up, not Y-up.
-    //[Header("ThreeBodyProblem Values")]
-    //public double startingX = 0.94949344;
-    //public double startingY = 0.39329306;
-    //public double startingZ = -0.00426519;
-    //public double tFinal = 2.0 * Math.PI;
-    //private static double Mu = 3.003e-06;
-    #endregion
+    public GameObject SatelliteUITag;
     private float OrbiterStartingScale;
 
     [Header("UI interaction Variables")]
@@ -41,92 +31,64 @@ public class OrbitManagement : MonoBehaviour
     [SerializeField, Range(0f, 1f)] private float _newtolerance;       
     private float DefaultTolerance;
 
-    private Vector3 CurrentPosition;
-    private Vector3 CurrentScale;
+    [HideInInspector]
+    public Vector3 CurrentPosition;
+    [HideInInspector]
+    public Vector3 CurrentScale;
 
     [Header("Data Points")]
     public List<Vector3> RawPositions;
     public List<double> RawJulianTime;
     public List<GameObject> orbitalobjects;
+    public List<Vector3> orbitalpositions;
     public LineRenderer LR;
     //public FollowTrajectory FT;
 
     public bool Line;
+    public bool UITag;
     public float Radius;
+    public float NewRadius;
     public Color LineColour;
     private Color LineColour1;
-
-    //time stuff
-    public int year;
-    public int month;
-    public int day;
-    public int hour;
-    public int minute;
-    public int second;
+    private bool ColourIsSet = false;
 
     public void Start()
-    {
-        #region Old Mu code
-        ////refactor Mu into a float
-        //float mu = (float)Mu;
-        ////Set Sun/Earth positions relative to Mu
-        //Sun.transform.localPosition = new Vector3(-mu, 0, 0);
-        //Earth.transform.localPosition = new Vector3(1 - mu, 0, 0);
-        ////set Sun/Earth gameobjects to active
-        //Sun.SetActive(true);
-        //Earth.SetActive(true);
-        #endregion
+    {        
         //cache Line renderer to avoid multiple calls.
         LR = gameObject.GetComponent<LineRenderer>();        
-        #region Default Values Setup
-        //get current scale
-        DefaultScale = transform.localScale.x;
-        //setnewscale to currentscale
-        newscale = DefaultScale;
-        //set orbiterstartingscale
-        OrbiterStartingScale = Radius * 2;
-        //set Orbiter localscale
-        Orbiter.transform.localScale = new Vector3(OrbiterStartingScale, OrbiterStartingScale, OrbiterStartingScale);                
-        //set tolerance starting value
-        DefaultTolerance = 0.05f;
-        //set newtolerance to currenttolerance
-        newtolerance = DefaultTolerance;
-        //set defaultlinewidth starting value
-        DefaultLineWidth = 0.01f;
-        //set newlinewidth to default width
-        newlinewidth = DefaultLineWidth;
-        //set current object position
-        CurrentPosition = this.gameObject.transform.position;
-        CurrentScale = this.gameObject.transform.localScale;
+        #region Default Values Setup        
+        DefaultScale = transform.localScale.x; //get current scale        
+        newscale = DefaultScale; //setnewscale to currentscale        
+        OrbiterStartingScale = Radius * 2; //set orbiterstartingscale
+        Orbiter.transform.localScale = new Vector3(OrbiterStartingScale, OrbiterStartingScale, OrbiterStartingScale); //set Orbiter localscale        
+        NewRadius = Radius; //Set NewRadius to Radius        
+        DefaultTolerance = 0; //set tolerance starting value        
+        newtolerance = DefaultTolerance; //set newtolerance to currenttolerance        
+        DefaultLineWidth = 0.001f; //set newtolerance to currenttolerance        
+        newlinewidth = DefaultLineWidth; //set newlinewidth to default width        
+        CurrentPosition = this.gameObject.transform.position; //set current object position
+        CurrentScale = this.gameObject.transform.localScale; //set current scale
         #endregion
         #region Colour Randomisation
         float col1 = UnityEngine.Random.Range(0f, 1f);
         float col2 = UnityEngine.Random.Range(0f, 1f);
-        float col3 = UnityEngine.Random.Range(0f, 1f);
-
-        //set random line colour
-        LineColour1 = new Color(col1, col2, col3, 1);
+        float col3 = UnityEngine.Random.Range(0f, 1f);        
+        LineColour1 = new Color(col1, col2, col3, 1); //set random line colour
         #endregion        
-        //Call orbital point object generation
-        ObjectGenerator();
-        InvokeRepeating("updateOrbiterPosition", 0, 1);
+        ObjectGenerator(); //Call orbital point object generation
     }
 
-    #region no longer needed TBP caller
-    //public void TBP()
-    //{
-    //    //instigate threebodyproblem calculations from X Y Z and Tfinal values
-    //    threeBodyProblemIntegrator.Program.ThreeBodyProblemIntegration(startingX, startingY, startingZ, tFinal);
-
-    //    // set X[0] in 3BPI to a range of 0.15 / 0.85
-    //    // set Tfinal in 3BPI to a range between 0.005 / 0.5
-    //    // start coroutine 3BPI
-    //}
-    #endregion
     private void Update()
     {
-        //if scale changed, update visualisation 
-        if (DefaultScale != newscale)
+        if (Orbiter.activeSelf)
+        {
+            SatelliteUITag.SetActive(UITag);
+        }
+        if (!Orbiter.activeSelf)
+        {
+            SatelliteUITag.SetActive(Orbiter.activeSelf);
+        }         
+        if (DefaultScale != newscale) //if scale changed, update visualisation
         {
             transform.localScale = new Vector3(newscale, newscale, newscale);
             Orbiter.transform.localScale = new Vector3(OrbiterStartingScale * newscale, OrbiterStartingScale * newscale, OrbiterStartingScale * newscale);
@@ -139,9 +101,8 @@ public class OrbitManagement : MonoBehaviour
             {
                 return;
             }
-        }
-        //if line width changed, update visualisation
-        if (DefaultLineWidth != newlinewidth)
+        }        
+        if (DefaultLineWidth != newlinewidth) //if line width changed, update visualisation
         {
             if (Line)
             {
@@ -152,26 +113,16 @@ public class OrbitManagement : MonoBehaviour
             {
                 return;
             }            
-        }
-        //if tolerance changed, update visualisation
-        if (DefaultTolerance != newtolerance)
-        {
-            //Debug.Log("Current tolerance change detected");
-            foreach (GameObject orbitalchild in orbitalobjects)
-            {
-                Destroy(orbitalchild);
-            }
-            orbitalobjects.Clear();
+        }        
+        if (DefaultTolerance != newtolerance) //if tolerance changed, update visualisation
+        {            
+            orbitalpositions.Clear();
             ObjectGenerator();
             DefaultTolerance = newtolerance;
         }
         if (CurrentPosition != transform.position)
         {
-            foreach (GameObject orbitalchild in orbitalobjects)
-            {
-                Destroy(orbitalchild);
-            }
-            orbitalobjects.Clear();
+            orbitalpositions.Clear();
             CurrentPosition = transform.position;
             ObjectGenerator();
         }
@@ -179,36 +130,54 @@ public class OrbitManagement : MonoBehaviour
         {
             CurrentScale = transform.localScale;
         }
+        Color TestColour2 = new Color(1, 1, 1, 1);
+        if (LineColour == TestColour2)
+        {
+            LineColour = LineColour1;
+        }
+        if (Line) 
+        {            
+            if (!ColourIsSet) //set colour
+            {
+                SetOrbiterColour();
+                ColourIsSet = true;
+            }
+            if (!LR.enabled)
+            {
+                LR.enabled = true;
+            }
+        }
+        if (!Line)
+        {
+            LR.enabled = false;
+        }
+        if (NewRadius != Radius)
+        {
+            float NewOrbiterScale = Radius * 2;
+            Orbiter.transform.localScale = new Vector3(NewOrbiterScale, NewOrbiterScale, NewOrbiterScale);
+            NewRadius = Radius;
+        }
     }
 
-    //currently only called by threeboyproblemintegration - no longer needed
-    public void PointCreator(Vector3 position)
-    {                
-        RawPositions.Add(position);
-    }
-
-    public void ObjectGenerator()
-    {        
-        //call RenderPoints() function to draw line renderer between all points if Line Bool is true.
+    public void ObjectGenerator() //call RenderPoints() function to draw line renderer between all points if Line Bool is true.
+    {
         if (Line)
         {
-            //simplify list of raw positions to optimise rendering
+            orbitalpositions.Clear(); //clear any previously saved positions            
             var simplifiedpoints = new List<Vector3>();
-            LineUtility.Simplify(RawPositions, newtolerance, simplifiedpoints);
+            LineUtility.Simplify(RawPositions, newtolerance, simplifiedpoints); //simplify list of raw positions to optimise line rendering if needed
             for (int i = 0; i < simplifiedpoints.Count; i++)
             {
-                //create prefab game objects at simplified point positions as child objects
-                Vector3 LocalPos = new Vector3(simplifiedpoints[i].x + CurrentPosition.x, simplifiedpoints[i].y + CurrentPosition.y, simplifiedpoints[i].z + CurrentPosition.z);
-                GameObject orbitalchild = Instantiate(orbitalindicator, LocalPos, Quaternion.identity) as GameObject;
-                orbitalchild.transform.parent = this.gameObject.transform;
-                //add each game object to list of points to render
-                orbitalobjects.Add(orbitalchild);
+                Vector3 LocalPos = new Vector3(simplifiedpoints[i].x + CurrentPosition.x, simplifiedpoints[i].y + CurrentPosition.y, simplifiedpoints[i].z + CurrentPosition.z);                
+                orbitalpositions.Add(LocalPos);
             }
             RenderPoints();
         }
         else
         {
+            orbitalpositions.Clear();
             LR.enabled = false;
+            SetOrbiterColour();
             return;
         }
     }
@@ -219,89 +188,51 @@ public class OrbitManagement : MonoBehaviour
         {
             LR.enabled = true;
         }        
-        //fixes rotation to only Y axis
-        FixObjectRotation();
-        //set number of line renderer positions
-        LR.positionCount = orbitalobjects.Count;
+        FixObjectRotation(); //fixes rotation to only Y axis
+        LR.positionCount = orbitalpositions.Count; //set number of line renderer positions
         #region LineColouring
         LR.startColor = LineColour1;
         LR.endColor = LineColour1;
-        //set linecolour
-        //if(LineColour == null)
-        //{
-        //    LR.startColor = LineColour1;
-        //    LR.endColor = LineColour1;
-        //}
-        //else
-        //{
-        //    LR.startColor = LineColour;
-        //    LR.endColor = LineColour;
-        //}
-        LR.material = new Material(Shader.Find("Particles/Alpha Blended"));
-        #endregion
-        //set linewidth
-        LR.startWidth = newlinewidth * DefaultScale;
-        LR.endWidth = newlinewidth * DefaultScale;
-        for (int i = 0; i < orbitalobjects.Count; i++)
-        {
-            //set Line renderer positions 
-            LR.SetPosition(i, orbitalobjects[i].transform.position);
+        LR.material = new Material(Shader.Find("Particles/Alpha Blended")); //set line renderer material + shader
+        #endregion        
+        LR.startWidth = newlinewidth * DefaultScale; //set linewidth
+        LR.endWidth = newlinewidth * DefaultScale; //set linewidth
+        for (int i = 0; i < orbitalpositions.Count; i++)
+        {             
+            LR.SetPosition(i, orbitalpositions[i]); //set Line renderer positions
         }
     }
 
-    // convert year, month, day, hour, minute, second to JD
-    public static double JD(int y, int m, int d, int hh, int mm, int ss)
+    void SetOrbiterColour()
     {
-        // Explanatory Supplement to the Astronomical Almanac, S.E. Urban and P.K. Seidelman (Eds.), 2012
-        int jd = (1461 * (y + 4800 + (m - 14) / 12)) / 4 + (367 * (m - 2 - 12 * ((m - 14) / 12))) / 12 - (3 * ((y + 4900 + (m - 14) / 12) / 100)) / 4 + d - 32075;
-        return jd + (hh - 12.0) / 24.0 + mm / 1440.0 + ss / 86400.0;
-    }
-
-    // interpolate position at time t (JD), given an array of times (in JD, sorted) and position vectors (Cartesian)
-    public static Vector3 interpolateOrbit(double t, double[] T, Vector3[] X)
-    {
-        int i = System.Array.BinarySearch(T, t);
-        if (i >= 0) return X[i];     // we happened to find the exact time, so don't interpolate
-        i = ~i;
-        if (i >= T.Length)
-            return X[T.Length - 1];   // XXX: this means we're interpolating past the data, we really should not be drawing this object any more!
-        if (i == 0)
-            return X[0];            // XXX: this means we're interpolating before the data, we really should not be drawing this object yet!
-        return X[i - 1] + (float)((t - T[i - 1]) / (T[i] - T[i - 1])) * (X[i] - X[i - 1]);
-    }
-
-    private void updateOrbiterPosition()
-    {
-        year = DateTime.Now.Year;
-        month = DateTime.Now.Month;
-        day = DateTime.Now.Day;
-        hour = DateTime.Now.Hour;
-        minute = DateTime.Now.Minute;
-        second = DateTime.Now.Second;
-
-        double JulianDateTime = JD(year, month, day, hour, minute, second);
-        double[] times = RawJulianTime.ToArray();
-
-        List<Vector3> Localpositions = new List<Vector3>();
-        for (int i = 0; i < RawPositions.Count; i++)
+        Color TestColour = new Color(0, 0, 0, 0);
+        if (LineColour == TestColour)
         {
-            Vector3 localisedposition = new Vector3(
-                (RawPositions[i].x + CurrentPosition.x) * CurrentScale.x,
-                (RawPositions[i].y + CurrentPosition.y) * CurrentScale.y,
-                (RawPositions[i].z + CurrentPosition.z) * CurrentScale.z);
-            Localpositions.Add(localisedposition);
+            Material OrbiterColour = new Material(Shader.Find("Standard"));
+            OrbiterColour.color = LineColour1;
+            OrbiterColour.EnableKeyword("_EMISSION");
+            OrbiterColour.SetColor("_EmissionColor", LineColour1);
+            Orbiter.GetComponent<MeshRenderer>().material = OrbiterColour;
         }
-        Vector3[] positions = Localpositions.ToArray();
-
-        Orbiter.transform.position = interpolateOrbit(JulianDateTime, times, positions);
+        if (LineColour != TestColour)
+        {
+            if (LineColour == LineColour1)
+            {
+                return;
+            }
+            Material OrbiterColour = new Material(Shader.Find("Standard"));
+            OrbiterColour.color = LineColour;
+            OrbiterColour.EnableKeyword("_EMISSION");
+            OrbiterColour.SetColor("_EmissionColor", LineColour);
+            Orbiter.GetComponent<MeshRenderer>().material = OrbiterColour;
+            ColourIsSet = true;
+        }
     }
 
-    public void FixObjectRotation()
-    {
-        // if X or Z rotation has deviated through user manipulation
-        if (transform.eulerAngles.x != 0 || transform.eulerAngles.z != 0)
-        {
-            //get current Y rotation, fix X and Z rotations to 0
+    public void FixObjectRotation() // if X or Z rotation has deviated through user manipulation
+    {        
+        if (transform.eulerAngles.x != 0 || transform.eulerAngles.z != 0) //get current Y rotation, fix X and Z rotations to 0
+        {            
             float yRotation = transform.eulerAngles.y;
             transform.eulerAngles = new Vector3(0, yRotation, 0);
         }

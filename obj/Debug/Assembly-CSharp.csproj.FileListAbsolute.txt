@@ -1,7 +1,6 @@
 U:\Unity 2018 Projects\UKSA-orbital-project\Temp\bin\Debug\Assembly-CSharp.dll
 U:\Unity 2018 Projects\UKSA-orbital-project\Temp\bin\Debug\Assembly-CSharp.pdb
 U:\Unity 2018 Projects\UKSA-orbital-project\Temp\bin\Debug\Boo.Lang.dll
-U:\Unity 2018 Projects\UKSA-orbital-project\Temp\bin\Debug\Microsoft.Research.Oslo.dll
 U:\Unity 2018 Projects\UKSA-orbital-project\Temp\bin\Debug\Microsoft.Win32.Primitives.dll
 U:\Unity 2018 Projects\UKSA-orbital-project\Temp\bin\Debug\mscorlib.dll
 U:\Unity 2018 Projects\UKSA-orbital-project\Temp\bin\Debug\netstandard.dll
@@ -277,3 +276,6 @@ U:\Unity 2018 Projects\UKSA-orbital-project\obj\Debug\Assembly-CSharp.csproj.Cor
 U:\Unity 2018 Projects\UKSA-orbital-project\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 U:\Unity 2018 Projects\UKSA-orbital-project\obj\Debug\Assembly-CSharp.dll
 U:\Unity 2018 Projects\UKSA-orbital-project\obj\Debug\Assembly-CSharp.pdb
+U:\Unity 2018 Projects\UKSA-orbital-project\Temp\bin\Debug\Microsoft.CSharp.dll
+U:\Unity 2018 Projects\UKSA-orbital-project\Temp\bin\Debug\System.Data.dll
+U:\Unity 2018 Projects\UKSA-orbital-project\Temp\bin\Debug\System.Net.Http.dll

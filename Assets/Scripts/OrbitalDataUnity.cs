@@ -50,7 +50,7 @@
     {
         public string Name;
         public Display Display;
-        public long Radius;
+        public double Radius;
 
         public List<RawEphData> Eph;
 
