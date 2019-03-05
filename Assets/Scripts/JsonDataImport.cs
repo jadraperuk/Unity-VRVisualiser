@@ -6,13 +6,31 @@ using QuickType;
 
 public class JsonDataImport : MonoBehaviour {
 
-    public string localpath = "U:/Json-orbitdata/orbits.json";
+    public GameObject LoadDataCanvas;
+    public string localpath = "filepathgoeshere";
+    private bool DataLoaded = false;
+    private bool LoadingData = false;
     private string JsonData;
     public OrbitalDataUnity orbitalDataUnity;
     public GameObject Pedestal;
 
-    IEnumerator Start () {
-        using (WWW www = new WWW("file:///" + localpath))
+    public void Start()
+    {
+        if (localpath == "filepathgoeshere")
+        {
+            LoadDataCanvas.SetActive(true);
+        }
+        if (localpath != "filepathgoeshere")
+        {
+            LoadDataCanvas.SetActive(false);
+            StartCoroutine("LoadData");
+            Debug.Log("filepath = " + localpath);
+        }
+        
+    }
+
+    IEnumerator LoadData () {
+        using (WWW www = new WWW(localpath))
         {
             yield return www;
             JsonData = www.text;
@@ -23,10 +41,19 @@ public class JsonDataImport : MonoBehaviour {
         GenerateSatellites();
         Debug.Log("setting current scale value to " + ScaleStartValue + "Units = " + orbitalDataUnity.Info.Units);
         CurrentScale = ScaleValue;
+        DataLoaded = true;
     }
 
     public void Update()
     {
+        if (localpath != "filepathgoeshere" && !DataLoaded && !LoadingData)
+        {
+            LoadingData = true;
+            LoadDataCanvas.SetActive(false);
+            StartCoroutine("LoadData");
+            Debug.Log("filepath = " + localpath);
+        }
+
         if (CurrentScale != ScaleValue)
         {
             List<GameObject> OrbitManagers = new List<GameObject>();
@@ -239,5 +266,28 @@ public class JsonDataImport : MonoBehaviour {
         }
         Debug.Log("Satellites Generated");
         Pedestal.GetComponent<MainMenuUIManager>().OrbitsCreated = true;
+        //HeightAdjust HA = GetComponent<HeightAdjust>();
+        //HA.PreviousScale = 0;
     }
+
+    public void LoadDataFile()
+    {
+        localpath = "filepathgoeshere";
+        LoadingData = false;
+        DataLoaded = false;
+        LoadDataCanvas.SetActive(true);
+        List<GameObject> OrbitManagers = new List<GameObject>();
+        OrbitManagers.AddRange(GameObject.FindGameObjectsWithTag("OrbitalManager"));
+        foreach (GameObject OrbitManager in OrbitManagers)
+        {
+            Destroy(OrbitManager);
+        }
+        MainMenuUIManager MMUI = Pedestal.GetComponent<MainMenuUIManager>();
+        MMUI.OrbitsCreated = false;
+        MMUI.TimeSliderUpdated = false;
+        MMUI.AllTimes.Clear();
+        MMUI.CancelInvoke("OrbitUpdate");
+        MMUI.CancelInvoke("GlobalScaleUpdate");
+    }
+
 }

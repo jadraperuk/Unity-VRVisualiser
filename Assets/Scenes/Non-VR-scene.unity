@@ -162,19 +162,6 @@ Prefab:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1565727559155874, guid: 36897f7b9fde8ab478b0652bfbf11ea3, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1567789563152890, guid: 36897f7b9fde8ab478b0652bfbf11ea3, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114058102354108418, guid: 36897f7b9fde8ab478b0652bfbf11ea3,
-        type: 2}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Realtimetoggled
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36897f7b9fde8ab478b0652bfbf11ea3, type: 2}
   m_IsPrefabAsset: 0

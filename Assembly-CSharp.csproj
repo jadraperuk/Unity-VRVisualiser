@@ -305,6 +305,7 @@
     <Compile Include="Assets\Scripts\JsonDataImport.cs" />
     <Compile Include="Assets\Scripts\JsonHelper.cs" />
     <Compile Include="Assets\Scripts\MainMenuUIManager.cs" />
+    <Compile Include="Assets\Scripts\OpenJsonFileBrowser.cs" />
     <Compile Include="Assets\Scripts\OrbitalData.cs" />
     <Compile Include="Assets\Scripts\OrbitalDataUnity.cs" />
     <Compile Include="Assets\Scripts\OrbitFromJsonFile.cs" />
@@ -316,6 +317,18 @@
     <Compile Include="Assets\Scripts\TubeRenderer.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
     <Compile Include="Assets\Scripts\UtilityFunctions.cs" />
+    <Compile Include="Assets\StandaloneFileBrowser\IStandaloneFileBrowser.cs" />
+    <Compile Include="Assets\StandaloneFileBrowser\Sample\BasicSample.cs" />
+    <Compile Include="Assets\StandaloneFileBrowser\Sample\CanvasSampleOpenFileImage.cs" />
+    <Compile Include="Assets\StandaloneFileBrowser\Sample\CanvasSampleOpenFileText.cs" />
+    <Compile Include="Assets\StandaloneFileBrowser\Sample\CanvasSampleOpenFileTextMultiple.cs" />
+    <Compile Include="Assets\StandaloneFileBrowser\Sample\CanvasSampleSaveFileImage.cs" />
+    <Compile Include="Assets\StandaloneFileBrowser\Sample\CanvasSampleSaveFileText.cs" />
+    <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowser.cs" />
+    <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserEditor.cs" />
+    <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserLinux.cs" />
+    <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserMac.cs" />
+    <Compile Include="Assets\StandaloneFileBrowser\StandaloneFileBrowserWindows.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_GazeTracker.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_LaserPointer.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_Teleporter.cs" />
@@ -1035,6 +1048,12 @@
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.20f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="Ookii.Dialogs">
+      <HintPath>U:/Unity 2018 Projects/UKSA-orbital-project/Assets/StandaloneFileBrowser/Plugins/Ookii.Dialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <HintPath>U:/Unity 2018 Projects/UKSA-orbital-project/Assets/StandaloneFileBrowser/Plugins/System.Windows.Forms.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>U:/Unity 2018 Projects/UKSA-orbital-project/Assets/WanzyeeStudio/ThirdParty/SaladLab/Json.Net.Unity3D/Plugins/Newtonsoft.Json.dll</HintPath>

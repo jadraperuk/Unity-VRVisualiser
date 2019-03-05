@@ -366,6 +366,12 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="Ookii.Dialogs">
+      <HintPath>U:/Unity 2018 Projects/UKSA-orbital-project/Assets/StandaloneFileBrowser/Plugins/Ookii.Dialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <HintPath>U:/Unity 2018 Projects/UKSA-orbital-project/Assets/StandaloneFileBrowser/Plugins/System.Windows.Forms.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>U:/Unity 2018 Projects/UKSA-orbital-project/Assets/WanzyeeStudio/ThirdParty/SaladLab/Json.Net.Unity3D/Plugins/Newtonsoft.Json.dll</HintPath>
     </Reference>

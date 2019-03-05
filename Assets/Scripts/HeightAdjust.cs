@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class HeightAdjust : MonoBehaviour {
 
@@ -18,10 +20,13 @@ public class HeightAdjust : MonoBehaviour {
     JsonDataImport JDI;
     [SerializeField]
     private int CurrentScale;
-    [SerializeField]
-    private int PreviousScale;
+    [HideInInspector]
+    public int PreviousScale;
     [SerializeField]
     private float MaxDist;
+    public Slider HeightSlider;
+    public TMP_Text HeightSliderValueText;
+    public int UserOffset;
 
     private void Start()
     {
@@ -30,6 +35,9 @@ public class HeightAdjust : MonoBehaviour {
     }
 
     void Update () {
+        //UserOffset = HeightSlider.value;
+        //string valuetext = HeightSlider.value.ToString();
+        //HeightSliderValueText.text = valuetext + "m";
         PreviousScale = CurrentScale;
         CurrentScale = JDI.CurrentScale;
 
@@ -71,9 +79,9 @@ public class HeightAdjust : MonoBehaviour {
         }
 
         //if transform.y local pos (Height) != MaxDist + 0.5, set it to it.
-        if (Height != MaxDist + Offset)
+        if (Height != MaxDist + Offset + UserOffset)
         {
-            transform.localPosition = new Vector3(transform.localPosition.x, MaxDist + Offset, transform.localPosition.z);
+            transform.localPosition = new Vector3(transform.localPosition.x, MaxDist + Offset + UserOffset, transform.localPosition.z);
         }
     }
 }

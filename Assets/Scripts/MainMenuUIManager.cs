@@ -17,6 +17,7 @@ public class MainMenuUIManager : MonoBehaviour {
     public Slider GlobalJulianDateSlider;
     public Toggle UseTimeStepToggle;
     public Slider TimeStepSlider;
+    public Slider HeightSlider;
 
     [Header ("UI text Elements")]
     public TMP_Text GlobalLinewidthtext;
@@ -27,6 +28,7 @@ public class MainMenuUIManager : MonoBehaviour {
     public TMP_Text CoordinatesText;
     public TMP_Text UnitsText;
     public TMP_Text TimeStepText;
+    public TMP_Text HeightSliderValueText;
 
     //UI Default Values
     private float DefaultLineWidth = 0.001f;
@@ -37,8 +39,8 @@ public class MainMenuUIManager : MonoBehaviour {
     public GameObject SatelliteCanvas;
     public GameObject MainMenuCanvas;
     JsonDataImport JDI;
-    [SerializeField]
-    private bool TimeSliderUpdated = false;
+    [HideInInspector]
+    public bool TimeSliderUpdated = false;
     public double JulianDate;
     [SerializeField]
     private double NewJulianDate;
@@ -46,10 +48,11 @@ public class MainMenuUIManager : MonoBehaviour {
     private bool NumbersCrunched = false;
     public bool OrbitsCreated = false;
     private List<double> RawTimes;
-    [SerializeField]
-    private List<double> AllTimes;
+    [HideInInspector]
+    public List<double> AllTimes;
     private int NewScaleValue;    
     public bool IsEnabled = false; //UI should be off by default, press Main Menu button to activate
+    private int NewHeightSliderValue;
 
     double[] timeSteps = { 0.0, 1.0 / (24.0 * 60.0 * 60.0), 10.0 / (24.0 * 60.0 * 60.0), 1.0 / (24.0 * 60.0), 1.0 / 24.0, 1.0, 30.0, 365.26 };
     string[] timeLabels = { "paused", "1 sec", "10 sec", "1 min", "1 hour", "1 day", "1 month", "1 year" };
@@ -76,11 +79,20 @@ public class MainMenuUIManager : MonoBehaviour {
         GlobalLinewidthtext.text = GlobalLineWidthSlider.value.ToString();
         GlobalShapeTolerancetext.text = GlobalShapeToleranceSlider.value.ToString();
         JsonDataImport JDI = JsonManager.GetComponent<JsonDataImport>();
-        GlobalScaletext.text = JDI.ScaleValue.ToString();
+        GlobalScaletext.text = JDI.ScaleValue.ToString();        
+        string valuetext = HeightSlider.value.ToString();
+        HeightSliderValueText.text = valuetext + "m";
+        #endregion
+        #region Slider Disable functionality
         GlobalJulianDateSlider.interactable = !GlobalRealTimeToggle.isOn;
+        GlobalJulianDateSlider.interactable = !UseTimeStepToggle.isOn;
+        GlobalLineWidthSlider.interactable = !UseTimeStepToggle.isOn;
+        GlobalScaleSlider.interactable = !UseTimeStepToggle.isOn;
+        HeightSlider.interactable = !UseTimeStepToggle.isOn;
         #endregion
         #region TimeSliderValueManagement        
         GlobalJulianDatetext.enabled = !GlobalRealTimeToggle.isOn;
+        TimeStepText.text = timeLabels[(int)TimeStepSlider.value]; // set timestep text value to corresponding string value
         if (!GlobalRealTimeToggle.isOn)
         {
             GlobalJulianDatetext.text = NewJulianDate.ToString();
@@ -93,7 +105,7 @@ public class MainMenuUIManager : MonoBehaviour {
             }
             if (!GlobalRealTimeToggle.isOn)
             {
-                UIJulianDate = JulianDate;
+                UIJulianDate = NewJulianDate;
             }            
             int Y = 0, M = 0, D = 0, hh = 0, mm = 0, ss = 0;
             YMDhms(UIJulianDate, ref Y, ref M, ref D, ref hh, ref mm, ref ss);
@@ -112,6 +124,13 @@ public class MainMenuUIManager : MonoBehaviour {
         }
         MainMenuCanvas.SetActive(IsEnabled);
         TimeStepSlider.interactable = UseTimeStepToggle.isOn;
+        if (NewHeightSliderValue != (int)HeightSlider.value)
+        {
+            CancelInvoke("OrbitUpdate");
+            NewHeightSliderValue = (int)HeightSlider.value;
+            JsonManager.GetComponent<HeightAdjust>().UserOffset = NewHeightSliderValue;
+            InvokeRepeating("OrbitUpdate", 1f, 1f);
+        }
     }
 
     private void FixedUpdate()
@@ -237,8 +256,7 @@ public class MainMenuUIManager : MonoBehaviour {
         {
             if (UseTimeStepToggle.isOn) //using Timestep
             {
-                NewJulianDate = JulianDate + timeSteps[(int)TimeStepSlider.value]; //set NewJulian date to current JulianDate + timestep increment
-                TimeStepText.text = timeLabels[(int)TimeStepSlider.value]; // set timestep text value to corresponding string value
+                NewJulianDate = JulianDate + timeSteps[(int)TimeStepSlider.value]; //set NewJulian date to current JulianDate + timestep increment                
                 if (JulianDate != NewJulianDate)
                 {
                     //Debug.Log("Updating Orbit with Dataset Values + timestep");
