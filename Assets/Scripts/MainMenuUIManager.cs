@@ -7,7 +7,7 @@ using System.Linq;
 
 public class MainMenuUIManager : MonoBehaviour {
 
-    [Header ("Interactible UI Elements")]
+    [Header("Interactible UI Elements")]
     public Toggle GlobalLineToggle;
     public Toggle GlobalTagToggle;
     public Slider GlobalLineWidthSlider;
@@ -18,8 +18,10 @@ public class MainMenuUIManager : MonoBehaviour {
     public Toggle UseTimeStepToggle;
     public Slider TimeStepSlider;
     public Slider HeightSlider;
+    public Toggle UseRotationToggle;
+    public Toggle TakeMenuWithMeToggle;
 
-    [Header ("UI text Elements")]
+    [Header("UI text Elements")]
     public TMP_Text GlobalLinewidthtext;
     public TMP_Text GlobalShapeTolerancetext;
     public TMP_Text GlobalScaletext;
@@ -29,45 +31,151 @@ public class MainMenuUIManager : MonoBehaviour {
     public TMP_Text UnitsText;
     public TMP_Text TimeStepText;
     public TMP_Text HeightSliderValueText;
+    public TMP_Text TakeMenuWithMeText;
 
     //UI Default Values
     private float DefaultLineWidth = 0.001f;
     private float DefaultTolerance = 0;
-    
+
     public GameObject[] OrbitManagers;
     public GameObject JsonManager;
     public GameObject SatelliteCanvas;
     public GameObject MainMenuCanvas;
+    public GameObject MainMenuLabelCanvas;
+    public GameObject LoadDataCanvas;
+    public GameObject AudioManager;
+    // public GameObject MainMenuVarsManager;
+
     JsonDataImport JDI;
-    [HideInInspector]
+    // MainMenuVars MMV;
+    MyAudioManager AM;
+    HeightAdjust HA;
+
+    //[HideInInspector]
     public bool TimeSliderUpdated = false;
-    public double JulianDate;
+    public double JulianDate;   // 'current' JD that is distributed to TM
     [SerializeField]
-    private double NewJulianDate;
-    private double UIJulianDate;
+    // why is this private and then serialised?
+    private double NewJulianDate;   // JD after having been stepped forward
+                                    // or otherwise advanced (slider)
+    private double UIJulianDate;    // what we see on the Canvas
     private bool NumbersCrunched = false;
     public bool OrbitsCreated = false;
     private List<double> RawTimes;
-    [HideInInspector]
+    //[HideInInspector]
     public List<double> AllTimes;
-    private int NewScaleValue;    
-    public bool IsEnabled = false; //UI should be off by default, press Main Menu button to activate
+    public int NewScaleValue;
+    // changed from false
+    public bool IsEnabled = true; //UI should be off by default, press Main Menu button to activate
     private int NewHeightSliderValue;
 
     double[] timeSteps = { 0.0, 1.0 / (24.0 * 60.0 * 60.0), 10.0 / (24.0 * 60.0 * 60.0), 1.0 / (24.0 * 60.0), 1.0 / 24.0, 1.0, 30.0, 365.26 };
     string[] timeLabels = { "paused", "1 sec", "10 sec", "1 min", "1 hour", "1 day", "1 month", "1 year" };
 
-    void Start () {
+    Vector3[] oldCanvasOffsets = new Vector3[4];
+
+    // frequency at which OrbitUpdate is invoked
+    public float updateFrequency = 0.05f;
+    public bool applyGmatOffset = true;
+    public bool restart;
+    private bool timeStepMode = false;
+    private bool _takeMenuWithMe = false;
+    public bool takeMenuWithMe {
+        get { return _takeMenuWithMe; }
+        set {
+            _takeMenuWithMe = value;
+            #region Moveable Menu
+            if (_takeMenuWithMe) // TEST THIS 
+            {
+                GameObject FM = new GameObject("FloatingMenu");
+                Vector3 cameraOffset = new Vector3(-1, 0, 0);
+                FM.transform.parent = Camera.current.transform; //or Camera.main.transform
+
+                // OPTIONAL apply any scripts that would allow FM to be dragged here 
+                // rotate towards user used to be applied here
+
+                // store original offsets (canvases to pedestal)
+                oldCanvasOffsets[0] = MainMenuCanvas.transform.position;
+                oldCanvasOffsets[1] = MainMenuLabelCanvas.transform.position;
+                oldCanvasOffsets[2] = SatelliteCanvas.transform.position;
+                oldCanvasOffsets[3] = LoadDataCanvas.transform.position;
+
+                // Change runtime hierarchy
+                // consider directly using SetParent method, as this is used by compiler
+                MainMenuCanvas.transform.parent = FM.transform;
+                MainMenuLabelCanvas.transform.parent = FM.transform;
+                SatelliteCanvas.transform.parent = FM.transform;
+                LoadDataCanvas.transform.parent = FM.transform;
+
+                // apply offsets 
+                MainMenuCanvas.transform.position = cameraOffset + oldCanvasOffsets[0];
+                MainMenuLabelCanvas.transform.position = cameraOffset + oldCanvasOffsets[1];
+                SatelliteCanvas.transform.position = cameraOffset + oldCanvasOffsets[2];
+                LoadDataCanvas.transform.position = cameraOffset + oldCanvasOffsets[3];
+
+                // change text 
+                TakeMenuWithMeText.text = "Return Menu To Pedestal";
+
+            }
+            if (!_takeMenuWithMe)
+            {
+                // set pedestal as parent
+                GameObject Pedestal = GameObject.Find("pedestal");
+                MainMenuCanvas.transform.parent = Pedestal.transform;
+                MainMenuLabelCanvas.transform.parent = Pedestal.transform;
+                SatelliteCanvas.transform.parent = Pedestal.transform;
+                LoadDataCanvas.transform.parent = Pedestal.transform;
+
+                // rotate each canvas back towards user 
+                var lookPos = transform.position - Camera.main.transform.position;
+                lookPos.y = 0;
+                var rotation = Quaternion.LookRotation(lookPos);
+                    
+                MainMenuCanvas.transform.rotation = rotation;
+                MainMenuLabelCanvas.transform.rotation = rotation;
+                SatelliteCanvas.transform.rotation = rotation;
+                LoadDataCanvas.transform.rotation = rotation;
+
+                // apply prior offset
+                MainMenuCanvas.transform.position = oldCanvasOffsets[0];
+                MainMenuLabelCanvas.transform.position = oldCanvasOffsets[1];
+                SatelliteCanvas.transform.position = oldCanvasOffsets[2];
+                LoadDataCanvas.transform.position = oldCanvasOffsets[3];
+
+                // change text 
+                TakeMenuWithMeText.text = "Take Menu With Me";
+
+                // find and delete FM
+                Destroy(GameObject.Find("FloatingMenu"));
+            }
+            #endregion
+        }
+    }
+        
+
+    void Start()
+    {
         GlobalLineWidthSlider.value = DefaultLineWidth;
         GlobalShapeToleranceSlider.value = DefaultTolerance;
-        JsonDataImport JDI = JsonManager.GetComponent<JsonDataImport>();
-        GlobalScaleSlider.value = JDI.ScaleValue;
-        NewScaleValue = (int)GlobalScaleSlider.value;
-        CoordinatesText.text = "Coordinates: " + JDI.orbitalDataUnity.Info.Coordinates;
-        UnitsText.text = "Units: " + JDI.orbitalDataUnity.Info.Units;
+        JDI = JsonManager.GetComponent<JsonDataImport>();
+        // JsonDataImport JDI = JsonManager.GetComponent<JsonDataImport>();
+        AM = AudioManager.GetComponent<MyAudioManager>();
+        HA = JsonManager.GetComponent<HeightAdjust>();
+
+        // WHY ARE THESE OBSOLETED?
+        //GlobalScaleSlider.value = JDI.ScaleValue;
+        //NewScaleValue = (int)GlobalScaleSlider.value;
+        //CoordinatesText.text = "Coordinates: " + JDI.orbitalDataUnity.Info.Coordinates;
+        //UnitsText.text = "Units: " + JDI.orbitalDataUnity.Info.Units;
+
+        //defaults
+        //UseTimeStepToggle.isOn = true;
+        //TimeStepSlider.value = (float)timeSteps[3];    // 1 min
     }
-	
-	void Update () {
+
+    void Update () {
+
+
         #region MenuOrientation - obselete.
         //orient Main Menu towards User Position - rotate Y only.
         //var lookPos = transform.position - Camera.main.transform.position;
@@ -75,14 +183,17 @@ public class MainMenuUIManager : MonoBehaviour {
         //var rotation = Quaternion.LookRotation(lookPos);
         //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5f);
         #endregion
+
         #region Text Updates        
         GlobalLinewidthtext.text = GlobalLineWidthSlider.value.ToString();
         GlobalShapeTolerancetext.text = GlobalShapeToleranceSlider.value.ToString();
         JsonDataImport JDI = JsonManager.GetComponent<JsonDataImport>();
+        // guess this finds current reference? Expensive to do this though
         GlobalScaletext.text = JDI.ScaleValue.ToString();        
         string valuetext = HeightSlider.value.ToString();
         HeightSliderValueText.text = valuetext + "m";
         #endregion
+
         #region Slider Disable functionality
         GlobalJulianDateSlider.interactable = !GlobalRealTimeToggle.isOn;
         GlobalJulianDateSlider.interactable = !UseTimeStepToggle.isOn;
@@ -90,34 +201,46 @@ public class MainMenuUIManager : MonoBehaviour {
         GlobalScaleSlider.interactable = !UseTimeStepToggle.isOn;
         HeightSlider.interactable = !UseTimeStepToggle.isOn;
         #endregion
-        #region TimeSliderValueManagement        
-        GlobalJulianDatetext.enabled = !GlobalRealTimeToggle.isOn;
+
+        #region Time Management
         TimeStepText.text = timeLabels[(int)TimeStepSlider.value]; // set timestep text value to corresponding string value
-        if (!GlobalRealTimeToggle.isOn)
-        {
-            GlobalJulianDatetext.text = NewJulianDate.ToString();
-        }
+        GlobalJulianDatetext.text = NewJulianDate.ToString();        
         if (OrbitsCreated)
         {
             if (GlobalRealTimeToggle.isOn)
             {
+                applyGmatOffset = false;    //avoid using offset JD in YMDhms()
                 UIJulianDate = OrbitManagers[0].GetComponent<TimeManipulator>().JulianDate;
+                // assumes all JD arrays are same. If numberCrunched, this is fine
             }
             if (!GlobalRealTimeToggle.isOn)
             {
+                applyGmatOffset = true;
                 UIJulianDate = NewJulianDate;
             }            
             int Y = 0, M = 0, D = 0, hh = 0, mm = 0, ss = 0;
-            YMDhms(UIJulianDate, ref Y, ref M, ref D, ref hh, ref mm, ref ss);
+            YMDhms(UIJulianDate, ref Y, ref M, ref D, ref hh, ref mm, ref ss, applyGmatOffset);
             GlobalJulianDateTextAlt.text = $"{Y}/{M:00}/{D:00} {hh:00}:{mm:00}:{ss:00}";
-        }        
+
+            if (restart)    // restart in Inspector
+            {
+                JulianDate = AllTimes[0];
+                restart = false;
+            }
+            // restart if at end of mission
+            if (JulianDate >= AllTimes[AllTimes.Count - 1])
+                restart = true;
+        }
         #endregion
+
+        #region Invokes
         if (NumbersCrunched == true)
         {
-            //Debug.Log("Numbers Crunched - invoking");
-            InvokeRepeating("OrbitUpdate", 0, 1f);
-            InvokeRepeating("GlobalScaleUpdate", 1f, 1f);            
-            GlobalToggleLineDraw();
+            Debug.Log("Numbers Crunched - invoking");
+            // InvokeRepeating("OrbitUpdate", 0, .25f);
+            InvokeRepeating("OrbitUpdate", 0, updateFrequency);
+            // InvokeRepeating("GlobalScaleUpdate", 1f, 1f);            
+            // GlobalToggleLineDraw();
             GlobalToggleTags();
             GlobalShapeToleranceSet();
             NumbersCrunched = false;
@@ -129,13 +252,22 @@ public class MainMenuUIManager : MonoBehaviour {
             CancelInvoke("OrbitUpdate");
             NewHeightSliderValue = (int)HeightSlider.value;
             JsonManager.GetComponent<HeightAdjust>().UserOffset = NewHeightSliderValue;
-            InvokeRepeating("OrbitUpdate", 1f, 1f);
+            //InvokeRepeating("OrbitUpdate", .25f, .25f);
+            InvokeRepeating("OrbitUpdate", .25f, updateFrequency);
+            // invoke after 0.25s
+        }
+        #endregion
+
+        if (Input.GetKey("escape"))
+        {
+            ExitApp();
         }
     }
 
     private void FixedUpdate()
     {
         if (OrbitsCreated)
+        // set by JDI after data imported
         {
             OrbitManagers = GameObject.FindGameObjectsWithTag("OrbitalManager");
             if (!TimeSliderUpdated)
@@ -147,16 +279,20 @@ public class MainMenuUIManager : MonoBehaviour {
         }        
     }
 
+    // this function appears to consolidate RawTimes together 
+    // sets NewJulianDate to initial date
     private void AllTimesUpdate()
     {
-        //Debug.Log("alltimes update orbit managers = " + OrbitManagers.Length);
         RawTimes = new List<double>();
+        
         foreach (GameObject OrbitManager in OrbitManagers)
         {
             OrbitManagement OM = OrbitManager.GetComponent<OrbitManagement>();
             RawTimes.AddRange(OM.RawJulianTime);
         }
+
         RawTimes.Sort((a, b) => a.CompareTo(b));
+
         AllTimes = new List<double>();
         double previousValue = 0;
         foreach (double time in RawTimes)
@@ -216,30 +352,75 @@ public class MainMenuUIManager : MonoBehaviour {
             OM.newtolerance = GlobalShapeToleranceSlider.value;
         }
     }
-        
+
     public void GlobalScaleSet()
     {
-        NewScaleValue = (int)GlobalScaleSlider.value;        
-    }
-
-    private void GlobalScaleUpdate()
-    {
-        JDI = JsonManager.GetComponent<JsonDataImport>();
+        NewScaleValue = (int)GlobalScaleSlider.value;
+        // distribute update scale
         if (JDI.ScaleValue != NewScaleValue)
         {
             CancelInvoke("OrbitUpdate");
             Debug.Log("scale changed - updating orbit");
             JDI.ScaleValue = NewScaleValue;
-            InvokeRepeating("OrbitUpdate", 1f, 1f);
-        }        
+            InvokeRepeating("OrbitUpdate", .25f, updateFrequency);
+        }
+    }
+
+    // unused function, checks every second for changes in scale
+    // invoke has been commmented out. Possibly useful if scale changed 
+    // outside of MainMenu slider
+    private void GlobalScaleUpdate()
+    {
+        JDI = JsonManager.GetComponent<JsonDataImport>();   // unecessary?
+        if (JDI.ScaleValue != NewScaleValue)
+        {
+            CancelInvoke("OrbitUpdate");
+            Debug.Log("scale changed - updating orbit");
+            JDI.ScaleValue = NewScaleValue;
+            //InvokeRepeating("OrbitUpdate", .25f, .25f);
+            InvokeRepeating("OrbitUpdate", .25f, updateFrequency);
+            // change 0.25f to user set frequency
+        }
     } 
 
     public void GlobalJulianTime()
     {
-        NewJulianDate = AllTimes[(int)GlobalJulianDateSlider.value];
-        //NewJulianDate = AllTimes[0] + GlobalJulianDateSlider.value * (AllTimes[AllTimes.Count - 1] - AllTimes[0]);
+        // ensures clicks don't play, and that time doesn't accelerate forwards
+        // due to IndexFromJD()
+        if (!timeStepMode)
+        {
+            AM.Play("SliderClick");
+            NewJulianDate = AllTimes[(int)GlobalJulianDateSlider.value];
+            //NewJulianDate = AllTimes[0] + GlobalJulianDateSlider.value * (AllTimes[AllTimes.Count - 1] - AllTimes[0]);
+        }
     }
 
+    // looks up time t, and finds index of next largest entry in array T 
+    // returns this index, or 0 if not found
+    // this should not happen
+    public int IndexFromJD (double[] T, double t)
+    {
+        // update JulianDateSlider
+        int i = System.Array.BinarySearch(T, t);
+        if (i >= 0)
+        {
+            // index in bounds, exact match 
+            return i;
+        }
+        i = ~i;
+        if ((i > 0) && (i <= T.Length))
+        {
+            // returned index is next largest number 
+            // not entirely accurate representation
+            // at most, off by 1 AllTime index step
+            return i;
+        }
+        return 0;
+    }
+
+    // currently invoked by Update() if numbers crunched
+    // *** two other cases!
+    // advances JulianDate by timestep (if toggled)
     public void OrbitUpdate()
     {
         if (GlobalRealTimeToggle.isOn) //using realtime
@@ -249,30 +430,40 @@ public class MainMenuUIManager : MonoBehaviour {
             {
                 TimeManipulator TM = OrbitManager.GetComponent<TimeManipulator>();
                 TM.UseRealTime = true;
-                TM.updateOrbiterPosition();
+                TM.UpdateOrbiterPosition();
             }
         }
         if (!GlobalRealTimeToggle.isOn) //not using realtime
         {
             if (UseTimeStepToggle.isOn) //using Timestep
             {
-                NewJulianDate = JulianDate + timeSteps[(int)TimeStepSlider.value]; //set NewJulian date to current JulianDate + timestep increment                
+                // set NewJulian date to current JulianDate + scaled timestep increment 
+                NewJulianDate = JulianDate + (timeSteps[(int)TimeStepSlider.value] / (1 / updateFrequency));
+
+                // update JulianDateSlider
+                // global flag fudged in so that GlobalJulianTime doesn't set NewJulianDate or play sounds
+                timeStepMode = true;
+                GlobalJulianDateSlider.value = IndexFromJD(AllTimes.ToArray(), NewJulianDate);
+                timeStepMode = false;
+
+                // Distribute JulianDate here
                 if (JulianDate != NewJulianDate)
                 {
-                    //Debug.Log("Updating Orbit with Dataset Values + timestep");
+                   //Debug.Log("Updating Orbit with Dataset Values + timestep");
                     JulianDate = NewJulianDate;
                     foreach (GameObject OrbitManager in OrbitManagers)
                     {
                         TimeManipulator TM = OrbitManager.GetComponent<TimeManipulator>();
                         TM.UseRealTime = false;
                         TM.JulianDate = JulianDate;
-                        TM.updateOrbiterPosition();
+                        TM.UpdateOrbiterPosition();
                     }
                 }
             }
             if (!UseTimeStepToggle.isOn) //not using timestep or realtime
+                // slider used instead
             {
-                NewJulianDate = AllTimes[(int)GlobalJulianDateSlider.value];
+                NewJulianDate = AllTimes[(int)GlobalJulianDateSlider.value];   
                 if (JulianDate != NewJulianDate)
                 {
                     //Debug.Log("Updating Orbit with Dataset Values");
@@ -282,15 +473,25 @@ public class MainMenuUIManager : MonoBehaviour {
                         TimeManipulator TM = OrbitManager.GetComponent<TimeManipulator>();
                         TM.UseRealTime = false;
                         TM.JulianDate = JulianDate;
-                        TM.updateOrbiterPosition();
+                        TM.UpdateOrbiterPosition();
                     }
                 }
             }            
         }               
     }
 
-    
+    public void UseRotation()
+    {
+        foreach (GameObject OrbitManager in OrbitManagers)
+        {
+            OrbitManagement OM = OrbitManager.GetComponent<OrbitManagement>();
+            OM.UseRotation = UseRotationToggle.isOn;
+            OM.ObjectGenerator();
+        }
+    }
+
     public void ClosePanel()
+    // triggered by OnClick events
     {
         IsEnabled = !IsEnabled;
         if (IsEnabled)
@@ -300,7 +501,15 @@ public class MainMenuUIManager : MonoBehaviour {
                 SatelliteCanvas.GetComponent<SatelliteCanvasManager>().ClosePanel();
             }
         }
+        // at no point is this invoke cancelled... 
+        // why is this even invoked? surely position is updated by UpdateOrbiter
+        // just call it once
+
+        // Invoke("ForcedPositionUpdate", 0.1f);
+        ForcedPositionUpdate();
     }
+
+    public void ExitApp() { Application.Quit(); }
 
     public void Realtimetoggled()
     {
@@ -313,14 +522,40 @@ public class MainMenuUIManager : MonoBehaviour {
                 TimeManipulator TM = OrbitManager.GetComponent<TimeManipulator>();
                 TM.UseRealTime = false;
                 TM.JulianDate = JulianDate;
-                TM.updateOrbiterPosition();
+                TM.UpdateOrbiterPosition();
             }
         }
     }
-        
-    public static void YMDhms(double JD, ref int Y, ref int M, ref int D, ref int hh, ref int mm, ref int ss)
+
+    public void ForcedPositionUpdate()
     {
-        // Explanatory Supplement to the Astronomical Almanac, S.E. Urban and P.K. Seidelman (Eds.), 2012
+        foreach (GameObject OrbitManager in OrbitManagers)
+        {
+            // null check prevents crash when JSON browser opened
+            if (OrbitManager != null)
+            {
+                TimeManipulator TM = OrbitManager.GetComponent<TimeManipulator>();
+                TM.UpdateOrbiterPosition();
+            }
+        }
+    }
+
+    //----------------------------------------------------------------------------
+    // Converts a given JD into DateTime components, applies offset if needed
+    //
+    // ref: GMAT User guide - Spacecraft Epoch
+    // ref: Explanatory Supplement to the Astronomical Almanac, 
+    //      S.E. Urban and P.K. Seidelman (Eds.), 2012
+    //----------------------------------------------------------------------------
+    /* @JD - Julian Date
+     * @ref int - DateTime components
+     * @offset - GMAT uses a non-conventional MJD offset, this corrects that offset
+    */
+    public static void YMDhms(double JD, ref int Y, ref int M, ref int D, ref int hh, ref int mm, ref int ss,
+                                bool offset)
+    {
+        if (offset)
+            JD += 2430000f;
         int J = (int)(JD + 0.5);
         int f = J + 1401 + (((4 * J + 274277) / 146097) * 3) / 4 - 38;
         int e = 4 * f + 3;
@@ -338,3 +573,5 @@ public class MainMenuUIManager : MonoBehaviour {
     }
 
 }
+
+

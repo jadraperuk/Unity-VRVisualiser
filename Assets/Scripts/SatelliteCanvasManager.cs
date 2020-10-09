@@ -99,7 +99,7 @@ public class SatelliteCanvasManager : MonoBehaviour {
         OM = OrbitManager.GetComponent<OrbitManagement>();
         //TM.JulianDateSliderValue = (int)JulianDateSlider.value;
         TM.JulianDate = OM.RawJulianTime[(int)JulianDateSlider.value];
-        TM.updateOrbiterPosition();
+        TM.UpdateOrbiterPosition();
     }
 
     public bool IsEnabled = false;
@@ -113,5 +113,6 @@ public class SatelliteCanvasManager : MonoBehaviour {
                 MainMenuCanvas.GetComponent<MainMenuUIManager>().ClosePanel();
             }
         }
+        MainMenuCanvas.GetComponent<MainMenuUIManager>().ForcedPositionUpdate();
     }
 }

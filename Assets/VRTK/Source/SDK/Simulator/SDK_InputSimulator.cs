@@ -88,7 +88,7 @@
         [Tooltip("Key used to distance pickup with right hand.")]
         public KeyCode distancePickupRight = KeyCode.Mouse1;
         [Tooltip("Key used to enable distance pickup.")]
-        public KeyCode distancePickupModifier = KeyCode.LeftControl;
+        public KeyCode distancePickupModifier = KeyCode.RightControl;
 
         [Header("Movement Key Binding Settings")]
 
@@ -102,6 +102,13 @@
         public KeyCode moveRight = KeyCode.D;
         [Tooltip("Key used to sprint.")]
         public KeyCode sprint = KeyCode.LeftShift;
+
+        #region custom
+        [Tooltip("Key used to fly upward.")]
+        public KeyCode moveUpwards = KeyCode.Space;
+        [Tooltip("Key used to fly downward.")]
+        public KeyCode moveDownwards = KeyCode.LeftControl;
+        #endregion
 
         [Header("Controller Key Binding Settings")]
 
@@ -449,6 +456,17 @@
             {
                 transform.Translate(transform.right * moveMod, Space.World);
             }
+
+            #region custom
+            if (Input.GetKey(moveUpwards))
+            {
+                transform.Translate(transform.up * moveMod, Space.World);
+            }
+            else if (Input.GetKey(moveDownwards))
+            {
+                transform.Translate(-transform.up * moveMod, Space.World);
+            }
+            #endregion
         }
 
         protected virtual void SetHand()

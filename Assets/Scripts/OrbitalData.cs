@@ -34,6 +34,12 @@
     }
 
     [System.Serializable]
+    public partial class AttData
+    {
+        public List<double> attdata;
+    }
+
+    [System.Serializable]
     public partial class Orbit
     {
         [JsonProperty("name")]
@@ -48,6 +54,9 @@
         [JsonProperty("eph")]        
         //public Eph[] eph;
         public List<double[]> Eph;
+
+        [JsonProperty("att")]
+        public List<double[]> Att;
 
         [JsonProperty("time")]
         public double[] Time;
@@ -87,7 +96,8 @@
         public override bool CanConvert(Type t) => t == typeof(Display) || t == typeof(Display?);
 
         public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
-        {
+        {        // initialises instance of JsonReader
+                 // ititialises deserialiser
             if (reader.TokenType == JsonToken.Null) return null;
             var value = serializer.Deserialize<string>(reader);
             switch (value)

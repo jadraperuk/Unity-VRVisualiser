@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{CFED3DCA-F33F-4B40-81B8-8DC9CF2C0D9A}</ProjectGuid>
+    <ProjectGuid>{E4A2962E-A552-261F-6548-8F7A2BF0E1C9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -60,7 +60,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\MainMenuToggleScript.cs" />
     <Compile Include="Assets\Oculus\AudioManager\Scenes\Scripts\TestScript.cs" />
     <Compile Include="Assets\Oculus\AudioManager\Scripts\Audio\AmbienceEmitter.cs" />
     <Compile Include="Assets\Oculus\AudioManager\Scripts\Audio\AudioManager.cs" />
@@ -304,7 +303,9 @@
     <Compile Include="Assets\Scripts\HeightAdjust.cs" />
     <Compile Include="Assets\Scripts\JsonDataImport.cs" />
     <Compile Include="Assets\Scripts\JsonHelper.cs" />
+    <Compile Include="Assets\Scripts\MainMenuToggleScript.cs" />
     <Compile Include="Assets\Scripts\MainMenuUIManager.cs" />
+    <Compile Include="Assets\Scripts\MyAudioManager.cs" />
     <Compile Include="Assets\Scripts\OpenJsonFileBrowser.cs" />
     <Compile Include="Assets\Scripts\OrbitalData.cs" />
     <Compile Include="Assets\Scripts\OrbitalDataUnity.cs" />
@@ -313,9 +314,11 @@
     <Compile Include="Assets\Scripts\RotateTowardsUser.cs" />
     <Compile Include="Assets\Scripts\SatelliteCanvasManager.cs" />
     <Compile Include="Assets\Scripts\SatelliteInteract.cs" />
+    <Compile Include="Assets\Scripts\Sound.cs" />
     <Compile Include="Assets\Scripts\TimeManipulator.cs" />
     <Compile Include="Assets\Scripts\TubeRenderer.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
+    <Compile Include="Assets\Scripts\UITagFlip.cs" />
     <Compile Include="Assets\Scripts\UtilityFunctions.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\IStandaloneFileBrowser.cs" />
     <Compile Include="Assets\StandaloneFileBrowser\Sample\BasicSample.cs" />
@@ -840,16 +843,16 @@
     <None Include="Assets\SteamVR\InteractionSystem\Readme_InteractionSystem.txt" />
     <None Include="Assets\Oculus\VR\Plugins\placeholder.txt" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>U:/Unity 2018 Projects/UKSA-orbital-project/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/User/Documents/Unity/VRVisualiser-Complete/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>U:/Unity 2018 Projects/UKSA-orbital-project/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/User/Documents/Unity/VRVisualiser-Complete/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>U:/Unity 2018 Projects/UKSA-orbital-project/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/User/Documents/Unity/VRVisualiser-Complete/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>U:/Unity 2018 Projects/UKSA-orbital-project/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/User/Documents/Unity/VRVisualiser-Complete/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -1050,19 +1053,19 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.20f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="Ookii.Dialogs">
-      <HintPath>U:/Unity 2018 Projects/UKSA-orbital-project/Assets/StandaloneFileBrowser/Plugins/Ookii.Dialogs.dll</HintPath>
+      <HintPath>C:/Users/User/Documents/Unity/VRVisualiser-Complete/Assets/StandaloneFileBrowser/Plugins/Ookii.Dialogs.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms">
-      <HintPath>U:/Unity 2018 Projects/UKSA-orbital-project/Assets/StandaloneFileBrowser/Plugins/System.Windows.Forms.dll</HintPath>
+      <HintPath>C:/Users/User/Documents/Unity/VRVisualiser-Complete/Assets/StandaloneFileBrowser/Plugins/System.Windows.Forms.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>U:/Unity 2018 Projects/UKSA-orbital-project/Assets/WanzyeeStudio/ThirdParty/SaladLab/Json.Net.Unity3D/Plugins/Newtonsoft.Json.dll</HintPath>
+      <HintPath>C:/Users/User/Documents/Unity/VRVisualiser-Complete/Assets/WanzyeeStudio/ThirdParty/SaladLab/Json.Net.Unity3D/Plugins/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
-      <HintPath>C:/Users/rjp/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
+      <HintPath>C:/Users/User/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
-      <HintPath>C:/Users/rjp/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/User/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.20f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -1420,8 +1423,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="SimpleFileBrowser.Runtime.csproj">
+      <Project>{4F60BA00-D737-02E0-D54A-A05FCA950723}</Project>
+      <Name>SimpleFileBrowser.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="WanzyeeStudio.Runtime.csproj">
-      <Project>{66A83F40-84FC-5AF1-DDE0-5D16B5579F98}</Project>
+      <Project>{A9195F42-4DF4-CFF5-DDA5-D41F50C85F7C}</Project>
       <Name>WanzyeeStudio.Runtime</Name>
     </ProjectReference>
   </ItemGroup>

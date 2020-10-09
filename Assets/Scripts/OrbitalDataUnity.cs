@@ -4,8 +4,8 @@
     using System.Collections.Generic;
 
     using System.Globalization;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
+    //using Newtonsoft.Json;
+    //using Newtonsoft.Json.Converters;
 
     [System.Serializable]
     public partial class OrbitalDataUnity
@@ -46,6 +46,23 @@
     }
 
     [System.Serializable]
+    public partial class RawAttData
+    {
+        public double X; // Unity format 
+        public double Y;
+        public double Z;
+        public double W;
+        public RawAttData(double Im1, double Im2, double Im3, double Rl)   // GMAT format
+        {
+            // just propagating raw data, mapping occurs in JsonDataImport
+            this.X = Im1;
+            this.Y = Im2;
+            this.Z = Im3;
+            this.W = Rl;
+        }
+    }
+
+    [System.Serializable]
     public partial class OrbitUnity
     {
         public string Name;
@@ -53,6 +70,7 @@
         public double Radius;
 
         public List<RawEphData> Eph;
+        public List<RawAttData> Att;
 
         public double[] Time;
         public string Color;
@@ -69,6 +87,15 @@
             foreach (double[] Value in data.Eph)
             {
                 this.Eph.Add(new RawEphData(Value[0], Value[1], Value[2], Value[3], Value[4], Value[5]));
+            }
+
+            if (data.Att != null)   // ensure null attitude data is handled
+            {
+                this.Att = new List<RawAttData>();
+                foreach (double[] Value in data.Att)
+                {
+                    this.Att.Add(new RawAttData(Value[0], Value[1], Value[2], Value[3]));
+                }
             }
         }
     }

@@ -8,6 +8,7 @@ using System;
 public class TimeManipulator : MonoBehaviour {
 
     OrbitManagement OM;
+
     //time stuff
     public int year;
     public int month;
@@ -31,7 +32,7 @@ public class TimeManipulator : MonoBehaviour {
         second = DateTime.Now.Second;
     }
 
-    public void updateOrbiterPosition()
+    public void UpdateOrbiterPosition()
     {
         if (UseRealTime)
         {
@@ -69,13 +70,32 @@ public class TimeManipulator : MonoBehaviour {
 
         Vector3 orbiterposition = new Vector3();
         orbiterposition = interpolateOrbit(JulianDateTime, times, positions, ref Active);
+
+        Quaternion orbiterRotation = new Quaternion();
+        if (OM.hasAttitude)
+        {
+            Quaternion[] rotationStates = OM.RawRotationStates.ToArray();
+            orbiterRotation = InterpolateAttitude(JulianDateTime, times, rotationStates, ref Active);
+        }
+
         bool SetOrbiterActive = Active;
         if (SetOrbiterActive)
         {
             OM.Orbiter.SetActive(Active);
             try
             {
+                //if (OM.drawScModel) // manipulate scModel
+                //{
+                //    OM.scModel.transform.position = orbiterposition;
+                //    OM.scModel.transform.rotation = orbiterRotation;
+                //}
+                //else
+                //{
+                //    OM.Orbiter.transform.position = orbiterposition;
+                //    OM.Orbiter.transform.rotation = orbiterRotation;
+                //}
                 OM.Orbiter.transform.position = orbiterposition;
+                OM.Orbiter.transform.rotation = orbiterRotation;
             }
             catch (Exception e)
             {
@@ -115,5 +135,45 @@ public class TimeManipulator : MonoBehaviour {
             return X[0];            // XXX: this means we're interpolating before the data, we really should not be drawing this object yet!
         }            
         return X[i - 1] + (float)((t - T[i - 1]) / (T[i] - T[i - 1])) * (X[i] - X[i - 1]);
+    }
+
+    //--------------------------------------------------------------------------------
+    // interpolates rotation state within a data set
+    // returns a slerped Quaternion 'weighted' suitably between two known states
+    // arrays must be sorted
+    //--------------------------------------------------------------------------------
+    /* @t -- time in JD
+     * @T -- array of times in JD
+     * @Q -- array of quaternions (usually RawAttData
+     * @Active -- bool reference for spacecraft state 
+     */
+    public static Quaternion InterpolateAttitude(double t, double[] T, Quaternion[] Q, ref bool Valid)
+    {
+        // search along time array. 
+        // if value is less than one or more objects in array, return bitwise complimnent (-'ve) of index of larger object
+        // if value is more than one or more objects in array, return bitwise complimnent of index of largest object in array + 1
+        // array must be sorted
+        // match, return index of found object
+        Valid = true;
+        int i = System.Array.BinarySearch(T, t);
+        if (i >= 0)
+            return Q[i];                // exact match, i = object index
+        i = ~i;                         // bitwise compliment operator, flips -'ve i 
+        if (i >= T.Length)
+        {
+            Valid = false;
+            return Q[T.Length - 1];     // going past data set, return final state
+        }
+        if (i == 0)
+        {
+            Valid = false;
+            return Q[0];                // going before data set, return initial state
+        }
+
+        // find where t lies between the two nearest time array elements
+        float ratio = (float)((t - T[i - 1]) / (T[i] - T[i - 1]));
+
+        // Quaternion.Slerp(first state, second state, iterpolation ratio)
+        return Quaternion.Slerp(Q[i - 1], Q[i], ratio);
     }
 }

@@ -5,7 +5,9 @@ using UnityEngine;
 public class SatelliteInteract : MonoBehaviour {
 
     public GameObject OrbitManager;
+    public GameObject GOAudioManager;
     OrbitManagement OM;
+    MyAudioManager AM;
     public bool TagWasEnabled;
     public bool LineWasEnabled;
     private bool triggered = false;
@@ -13,38 +15,58 @@ public class SatelliteInteract : MonoBehaviour {
     private void Start()
     {
         OM = OrbitManager.GetComponent<OrbitManagement>();
+        GOAudioManager = GameObject.FindGameObjectWithTag("AudioManager");
+        AM = GOAudioManager.GetComponent<MyAudioManager>();
     }
 
-    //private void OnMouseOver()
-    //{
-    //    Debug.Log("mouseover " + gameObject.name);
-    //    if (OM.UITag == false)
-    //    {
-    //        OM.UITag = true;
-    //        TagWasEnabled = false;
-    //    }
+    private void OnMouseOver()
+    {
+        if (gameObject.layer == 5)
+        {
+            return;
+        }
+        else
+        {
+            if (!triggered)
+            {
+                triggered = true;
+                AM.Play("ButtonClick");
+                if (OM.UITag == true)
+                {
+                    TagWasEnabled = true;
+                }
 
-    //    if (OM.Line == false)
-    //    {
-    //        OM.Line = true;
-    //        OM.ObjectGenerator();
-    //        LineWasEnabled = false;
-    //    }
-    //}
+                if (OM.Line == true)
+                {
+                    LineWasEnabled = true;
+                }
+                if (OM.UITag == false)
+                {
+                    OM.UITag = true;
+                    TagWasEnabled = false;
+                }
 
-    //private void OnMouseExit()
-    //{
-    //    Debug.Log("OnMouseExitTriggered" + OM.gameObject.name);
-    //    if (TagWasEnabled == false)
-    //    {
-    //        OM.UITag = false;
-    //    }
-    //    if (LineWasEnabled == false)
-    //    {
-    //        OM.Line = false;
-    //        OM.ObjectGenerator();
-    //    }
-    //}
+                if (OM.Line == false)
+                {
+                    OM.Line = true;
+                    OM.ObjectGenerator();
+                    LineWasEnabled = false;
+                }
+            }
+        }               
+    }
+
+    private void OnMouseExit()
+    {
+        if (gameObject.layer == 5)
+        {
+            return;
+        }
+        else
+        {
+            Invoke("DelayedExit", 3);
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -58,6 +80,7 @@ public class SatelliteInteract : MonoBehaviour {
             if (!triggered)
             {
                 triggered = true;
+                AM.Play("ButtonClick");
                 if (OM.UITag == true)
                 {
                     TagWasEnabled = true;

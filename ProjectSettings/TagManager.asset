@@ -3,13 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - OrbitalPoint
-  - OrbitalManager
-  - Orbiter
-  - MainSatelliteUI
-  - JsonManager
-  - MainMenuUI
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -46,7 +40,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: MainMenu
-    uniqueID: 1293024051
     locked: 0

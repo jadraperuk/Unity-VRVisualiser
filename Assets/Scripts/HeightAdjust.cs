@@ -7,17 +7,24 @@ using TMPro;
 public class HeightAdjust : MonoBehaviour {
 
     public GameObject Pedestal;
-    public float Height;
     public GameObject[] OrbitManagers;
     public GameObject MainSatelliteCanvas;
     public GameObject MainMenuCanvas;
-    private List<Vector3> RawData;
+    public GameObject LoadDataCanvas;
+
+    JsonDataImport JDI;
+    MainMenuUIManager MMUIM;
+
+    public float Height;
+    // private float ActiveUIheight = 1.3f;
+    public float ActiveUIheight = 2.2f;
+    // private float inactiveUIheight = 0.25f;
+    public float inactiveUIheight = 1f;
+    private float Offset;
+
     [SerializeField]
     private List<float> OrbitalYValues;
-    private float ActiveUIheight = 1.3f;
-    private float inactiveUIheight = 0.25f;
-    private float Offset;
-    JsonDataImport JDI;
+    private List<Vector3> RawData;
     [SerializeField]
     private int CurrentScale;
     [HideInInspector]
@@ -27,10 +34,12 @@ public class HeightAdjust : MonoBehaviour {
     public Slider HeightSlider;
     public TMP_Text HeightSliderValueText;
     public int UserOffset;
+    
 
     private void Start()
     {
         JDI = GetComponent<JsonDataImport>();
+        MMUIM = Pedestal.GetComponent<MainMenuUIManager>();
         CurrentScale = JDI.ScaleValue;
     }
 
@@ -38,11 +47,14 @@ public class HeightAdjust : MonoBehaviour {
         //UserOffset = HeightSlider.value;
         //string valuetext = HeightSlider.value.ToString();
         //HeightSliderValueText.text = valuetext + "m";
-        PreviousScale = CurrentScale;
         CurrentScale = JDI.CurrentScale;
+        // REMOVE THIS
+        PreviousScale = CurrentScale;
 
+        // this always returns false?
         if (PreviousScale != CurrentScale)
         {
+            PreviousScale = CurrentScale;
             Debug.Log("Updating height");
             OrbitManagers = GameObject.FindGameObjectsWithTag("OrbitalManager");
 
@@ -69,7 +81,10 @@ public class HeightAdjust : MonoBehaviour {
             }
         }
 
-        if (MainSatelliteCanvas.activeSelf == true || MainMenuCanvas.activeSelf == true)
+        // if Menus open AND if Menus have NOT been taken with user
+        // consider replacing with AND 
+        // insert conditions, including whether or not menus have been taken
+        if ((MainSatelliteCanvas.activeSelf || MainMenuCanvas.activeSelf || LoadDataCanvas.activeSelf) && !MMUIM.takeMenuWithMe)
         {
             Offset = ActiveUIheight;
         }
