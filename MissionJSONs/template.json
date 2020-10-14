@@ -1,0 +1,44 @@
+//Json Data Format
+//{
+//    "info”: {
+//            “coordinates” : “cartesian”,            // for now always cartesian
+//            “units”: “km”,                                  // for now always km
+//    },
+//    “orbits” : [
+//            {
+//                    “name”: “name of object”,       // to be displayed e.g. when object is selected
+//                    “display”: “line,point”,        // can be “line” to show entire orbit as a line, “point” to only show the current location of the object along the orbit, or “line,point” for both
+//                    “radius”: “123”,                // the radius for the point marker indicating the current position (if displayed) in same units as everything else (see info)
+//                    “color”: “#11223344”,           // a hex color for this object. If omitted, use some default color, or later maybe cycle through some pre-defined palette (like the attached plot).
+//                    “eph”: [
+//                            [a, b, c, d, e, f],     // the ephemeris (orbit) of the object. This is an array of arrays with 6 entries: first 3 are position, second 3 are velocity (for cartesian coordinates, see info)
+//                            …                         // repeated for each point along trajectory
+//                            ],
+//						"att":[
+							[Q1,Q2,Q3,Q4],
+							...
+						],
+//                    “time”: [ t, … ]                // times represented as fractional Julian days. One entry for each point in the ephemeris. Always in increasing order.
+//            },
+//            …                                       // more orbit objects as above
+//    ]
+//    }
+
+{
+	"info": {
+		"coordinates": "cartesian",
+		"units": "km"
+	},
+	"orbits":[
+		{
+		"name":"Earth",
+		"display": "line,point",
+		"radius": "6871",
+		"color": "#0000FF",
+		"eph": [
+			[0,0,0,0,0,0]
+		],
+		"time": [0]
+		}
+	]
+}
