@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//------------------------------------------------------------------------------
+//                              TimeManupulator
+//------------------------------------------------------------------------------
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +12,7 @@ public class TimeManipulator : MonoBehaviour {
 
     OrbitManagement OM;
 
-    //time stuff
+    // time stuff
     public int year;
     public int month;
     public int day;
@@ -17,6 +20,7 @@ public class TimeManipulator : MonoBehaviour {
     public int minute;
     public int second;
 
+    // flags 
     public bool UseRealTime = false;
     public bool Active;
 
@@ -24,6 +28,8 @@ public class TimeManipulator : MonoBehaviour {
 
     void Start () {
         OM = GetComponent<OrbitManagement>();
+
+        // cache current real time
         year = DateTime.Now.Year;
         month = DateTime.Now.Month;
         day = DateTime.Now.Day;
@@ -32,6 +38,14 @@ public class TimeManipulator : MonoBehaviour {
         second = DateTime.Now.Second;
     }
 
+    //------------------------------------------------------------------------------
+    // public void UpdateOrbiterPosition()
+    //------------------------------------------------------------------------------
+    /*
+     * Process flow based on whether real time or mission time are used. Calls 
+     * state and position update methods. 
+     */
+    //------------------------------------------------------------------------------
     public void UpdateOrbiterPosition()
     {
         if (UseRealTime)
@@ -53,6 +67,19 @@ public class TimeManipulator : MonoBehaviour {
         }        
     }
 
+    //------------------------------------------------------------------------------
+    // public void PreInterpolation(...)
+    //------------------------------------------------------------------------------
+    /*
+     * Moves and rotates the orbiter to a position and state along its ephemeris  
+     * and attitude arrays based on the current mission time, found via 
+     * interpolation functions. Handles orbiters that are interpolated past their 
+     * data by making them 'disappear'. 
+     *
+     * Params:
+     * @JulianDateTime - DateTime in JD to be used for interpolation
+     */
+    //------------------------------------------------------------------------------
     public void PreInterpolation(double JulianDateTime)
     {
         double[] times = OM.RawJulianTime.ToArray();
@@ -84,16 +111,6 @@ public class TimeManipulator : MonoBehaviour {
             OM.Orbiter.SetActive(Active);
             try
             {
-                //if (OM.drawScModel) // manipulate scModel
-                //{
-                //    OM.scModel.transform.position = orbiterposition;
-                //    OM.scModel.transform.rotation = orbiterRotation;
-                //}
-                //else
-                //{
-                //    OM.Orbiter.transform.position = orbiterposition;
-                //    OM.Orbiter.transform.rotation = orbiterRotation;
-                //}
                 OM.Orbiter.transform.position = orbiterposition;
                 OM.Orbiter.transform.rotation = orbiterRotation;
             }
@@ -109,7 +126,16 @@ public class TimeManipulator : MonoBehaviour {
         }
     }
 
-    // convert year, month, day, hour, minute, second to JD
+    //------------------------------------------------------------------------------
+    // public static double JD(int y, int m, int d, int hh, int mm, int ss)
+    //------------------------------------------------------------------------------
+    /*
+     * Converts year, month, day, hour, minute, second to JD and returns this int.
+     *  
+     * Params:
+     * @int distributed DateTime elements
+     */
+    //------------------------------------------------------------------------------
     public static double JD(int y, int m, int d, int hh, int mm, int ss)
     {
         // Explanatory Supplement to the Astronomical Almanac, S.E. Urban and P.K. Seidelman (Eds.), 2012
@@ -117,47 +143,32 @@ public class TimeManipulator : MonoBehaviour {
         return jd + (hh - 12.0) / 24.0 + mm / 1440.0 + ss / 86400.0;
     }
 
-    // interpolate position at time t (JD), given an array of times (in JD, sorted) and position vectors (Cartesian)
-    public static Vector3 interpolateOrbit(double t, double[] T, Vector3[] X, ref bool Valid)
-    {
-        Valid = true;
-        int i = System.Array.BinarySearch(T, t);
-        if (i >= 0) return X[i];     // we happened to find the exact time, so don't interpolate
-        i = ~i;
-        if (i >= T.Length)
-        {
-            Valid = false;
-            return X[T.Length - 1];   // XXX: this means we're interpolating past the data, we really should not be drawing this object any more!
-        }            
-        if (i == 0)
-        {
-            Valid = false;
-            return X[0];            // XXX: this means we're interpolating before the data, we really should not be drawing this object yet!
-        }            
-        return X[i - 1] + (float)((t - T[i - 1]) / (T[i] - T[i - 1])) * (X[i] - X[i - 1]);
-    }
-
-    //--------------------------------------------------------------------------------
-    // interpolates rotation state within a data set
-    // returns a slerped Quaternion 'weighted' suitably between two known states
-    // arrays must be sorted
-    //--------------------------------------------------------------------------------
-    /* @t -- time in JD
-     * @T -- array of times in JD
-     * @Q -- array of quaternions (usually RawAttData
-     * @Active -- bool reference for spacecraft state 
+    //------------------------------------------------------------------------------
+    // public static Quaternion InterpolateAttitude(...)
+    //------------------------------------------------------------------------------
+    /*
+     * Interpolates rotation state within a data set.
+     * Returns a slerped Quaternion 'weighted' suitably between two known states.
+     * Arrays must be sorted.
+     * Uses BinarySearch to search along time array. 
+     * Returns Quaternion.
+     * 
+     * Params:
+     * @t - time double to 'look up'
+     * @T - array of times in JD
+     * @Q - array of quaternions (usually RawAttData)
+     * @Valid - boolean reference for validity of spacecraft representation
      */
+    //------------------------------------------------------------------------------
     public static Quaternion InterpolateAttitude(double t, double[] T, Quaternion[] Q, ref bool Valid)
     {
+        Valid = true;
         // search along time array. 
         // if value is less than one or more objects in array, return bitwise complimnent (-'ve) of index of larger object
         // if value is more than one or more objects in array, return bitwise complimnent of index of largest object in array + 1
-        // array must be sorted
-        // match, return index of found object
-        Valid = true;
         int i = System.Array.BinarySearch(T, t);
         if (i >= 0)
-            return Q[i];                // exact match, i = object index
+            return Q[i];                // exact match, i = object index. Find corresponding quaternion element
         i = ~i;                         // bitwise compliment operator, flips -'ve i 
         if (i >= T.Length)
         {
@@ -176,4 +187,40 @@ public class TimeManipulator : MonoBehaviour {
         // Quaternion.Slerp(first state, second state, iterpolation ratio)
         return Quaternion.Slerp(Q[i - 1], Q[i], ratio);
     }
+
+    //------------------------------------------------------------------------------
+    // public static Vector3 interpolateOrbit(...)
+    //------------------------------------------------------------------------------
+    /*
+     * Similar operation to InterpolateAttitude. Interpolate position at time t 
+     * (JD), given an array of times (in JD, sorted) and position vectors (Cartesian).
+     * Returns Vector3.
+     * 
+     * Params:
+     * @t - time double to 'look up'
+     * @T - array of times in JD
+     * @Q - array of ephemeris state (usually RawEphData)
+     * @Valid - boolean reference for validity of spacecraft representation
+     */
+    //------------------------------------------------------------------------------
+    public static Vector3 interpolateOrbit(double t, double[] T, Vector3[] X, ref bool Valid)
+    {
+        Valid = true;
+        int i = System.Array.BinarySearch(T, t);
+        if (i >= 0) return X[i];     // Exact match, no interpolation needed
+        i = ~i;
+        if (i >= T.Length)
+        {
+            Valid = false;
+            return X[T.Length - 1];   // Interpolating past data
+        }            
+        if (i == 0)
+        {
+            Valid = false;
+            return X[0];            // Interpolating before data
+        }            
+        return X[i - 1] + (float)((t - T[i - 1]) / (T[i] - T[i - 1])) * (X[i] - X[i - 1]);
+    }
+
+
 }

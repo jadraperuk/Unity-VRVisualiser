@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//------------------------------------------------------------------------------
+//                              JsonDataImport
+//------------------------------------------------------------------------------
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,7 +26,7 @@ public class JsonDataImport : MonoBehaviour {
     public string[] customScNames = new string[4] 
         { "Sc1", "Sc2", "Sc3", "Sc4" };
 
-    // bool flag
+    // bool flags
     private bool DataLoaded = false;
     private bool LoadingData = false;
     private bool isCb;
@@ -72,6 +75,7 @@ public class JsonDataImport : MonoBehaviour {
         
     }
 
+    // ensures data is loaded before OrbitManagement::Start()
     IEnumerator LoadData () {
         using (WWW www = new WWW(localpath))
         {
@@ -100,8 +104,6 @@ public class JsonDataImport : MonoBehaviour {
 
         if (CurrentScale != ScaleValue)
         {
-            // does anything need to happen with attitude or models??
-            // ^^ probably not, because radii update and local scales applied in Update()
             // Regenerating orbit data with new scale applied
             List<GameObject> OrbitManagers = new List<GameObject>();
             OrbitManagers.AddRange(GameObject.FindGameObjectsWithTag("OrbitalManager"));
@@ -170,7 +172,15 @@ public class JsonDataImport : MonoBehaviour {
             }
         }
     }
-   
+
+    //------------------------------------------------------------------------------
+    // public void GenerateSatellites()
+    //------------------------------------------------------------------------------
+    /*
+     * Responsible for intantiating OMs, distrubiting raw JSON data these, 
+     * validating, setting flags and setting appropriate scales. 
+     */
+    //------------------------------------------------------------------------------
     public void GenerateSatellites()
     {
         //setup Scale values        

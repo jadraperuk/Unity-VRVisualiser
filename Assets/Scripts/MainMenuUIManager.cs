@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//------------------------------------------------------------------------------
+//                              MainMenuUIManager
+//------------------------------------------------------------------------------
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,10 +47,8 @@ public class MainMenuUIManager : MonoBehaviour {
     public GameObject MainMenuLabelCanvas;
     public GameObject LoadDataCanvas;
     public GameObject AudioManager;
-    // public GameObject MainMenuVarsManager;
 
     JsonDataImport JDI;
-    // MainMenuVars MMV;
     MyAudioManager AM;
     HeightAdjust HA;
 
@@ -55,41 +56,43 @@ public class MainMenuUIManager : MonoBehaviour {
     public bool TimeSliderUpdated = false;
     public double JulianDate;   // 'current' JD that is distributed to TM
     [SerializeField]
-    // why is this private and then serialised?
     private double NewJulianDate;   // JD after having been stepped forward
                                     // or otherwise advanced (slider)
     private double UIJulianDate;    // what we see on the Canvas
     private bool NumbersCrunched = false;
     public bool OrbitsCreated = false;
     private List<double> RawTimes;
-    //[HideInInspector]
+    //[HideInInspector]             // commented out for debugging
     public List<double> AllTimes;
     public int NewScaleValue;
-    // changed from false
-    public bool IsEnabled = true; //UI should be off by default, press Main Menu button to activate
+
+    public bool IsEnabled = true; // shows MainMenu at start, should be false by default
     private int NewHeightSliderValue;
 
     double[] timeSteps = { 0.0, 1.0 / (24.0 * 60.0 * 60.0), 10.0 / (24.0 * 60.0 * 60.0), 1.0 / (24.0 * 60.0), 1.0 / 24.0, 1.0, 30.0, 365.26 };
     string[] timeLabels = { "paused", "1 sec", "10 sec", "1 min", "1 hour", "1 day", "1 month", "1 year" };
 
-    Vector3[] oldCanvasOffsets = new Vector3[4];
+    Vector3[] oldCanvasOffsets = new Vector3[4];    // for use in the portable menu method
 
     // frequency at which OrbitUpdate is invoked
     public float updateFrequency = 0.05f;
     public bool applyGmatOffset = true;
     public bool restart;
     private bool timeStepMode = false;
+
     private bool _takeMenuWithMe = false;
     public bool takeMenuWithMe {
         get { return _takeMenuWithMe; }
         set {
             _takeMenuWithMe = value;
-            #region Moveable Menu
-            if (_takeMenuWithMe) // TEST THIS 
+
+            #region Moveable Menu Implementation
+            if (_takeMenuWithMe)    // Move menu from pedestal, to the user's camera
             {
+                // create parent
                 GameObject FM = new GameObject("FloatingMenu");
                 Vector3 cameraOffset = new Vector3(-1, 0, 0);
-                FM.transform.parent = Camera.current.transform; //or Camera.main.transform
+                FM.transform.parent = Camera.current.transform;
 
                 // OPTIONAL apply any scripts that would allow FM to be dragged here 
                 // rotate towards user used to be applied here
@@ -117,7 +120,8 @@ public class MainMenuUIManager : MonoBehaviour {
                 TakeMenuWithMeText.text = "Return Menu To Pedestal";
 
             }
-            if (!_takeMenuWithMe)
+
+            if (!_takeMenuWithMe)   // Return menu to the pedestal
             {
                 // set pedestal as parent
                 GameObject Pedestal = GameObject.Find("pedestal");
@@ -161,29 +165,9 @@ public class MainMenuUIManager : MonoBehaviour {
         // JsonDataImport JDI = JsonManager.GetComponent<JsonDataImport>();
         AM = AudioManager.GetComponent<MyAudioManager>();
         HA = JsonManager.GetComponent<HeightAdjust>();
-
-        // WHY ARE THESE OBSOLETED?
-        //GlobalScaleSlider.value = JDI.ScaleValue;
-        //NewScaleValue = (int)GlobalScaleSlider.value;
-        //CoordinatesText.text = "Coordinates: " + JDI.orbitalDataUnity.Info.Coordinates;
-        //UnitsText.text = "Units: " + JDI.orbitalDataUnity.Info.Units;
-
-        //defaults
-        //UseTimeStepToggle.isOn = true;
-        //TimeStepSlider.value = (float)timeSteps[3];    // 1 min
     }
 
     void Update () {
-
-
-        #region MenuOrientation - obselete.
-        //orient Main Menu towards User Position - rotate Y only.
-        //var lookPos = transform.position - Camera.main.transform.position;
-        //lookPos.y = 0;
-        //var rotation = Quaternion.LookRotation(lookPos);
-        //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5f);
-        #endregion
-
         #region Text Updates        
         GlobalLinewidthtext.text = GlobalLineWidthSlider.value.ToString();
         GlobalShapeTolerancetext.text = GlobalShapeToleranceSlider.value.ToString();
@@ -237,9 +221,7 @@ public class MainMenuUIManager : MonoBehaviour {
         if (NumbersCrunched == true)
         {
             Debug.Log("Numbers Crunched - invoking");
-            // InvokeRepeating("OrbitUpdate", 0, .25f);
-            InvokeRepeating("OrbitUpdate", 0, updateFrequency);
-            // InvokeRepeating("GlobalScaleUpdate", 1f, 1f);            
+            InvokeRepeating("OrbitUpdate", 0, updateFrequency);       
             // GlobalToggleLineDraw();
             GlobalToggleTags();
             GlobalShapeToleranceSet();
@@ -252,9 +234,7 @@ public class MainMenuUIManager : MonoBehaviour {
             CancelInvoke("OrbitUpdate");
             NewHeightSliderValue = (int)HeightSlider.value;
             JsonManager.GetComponent<HeightAdjust>().UserOffset = NewHeightSliderValue;
-            //InvokeRepeating("OrbitUpdate", .25f, .25f);
-            InvokeRepeating("OrbitUpdate", .25f, updateFrequency);
-            // invoke after 0.25s
+            InvokeRepeating("OrbitUpdate", .25f, updateFrequency); // wait 0.25s
         }
         #endregion
 
@@ -264,6 +244,14 @@ public class MainMenuUIManager : MonoBehaviour {
         }
     }
 
+    //------------------------------------------------------------------------------
+    // private void FixedUpdate()
+    //------------------------------------------------------------------------------
+    /*
+     * Called at fixed intervals. Responsible for reflecting changes in TimeSlider
+     * across mission. Potentially obsolete, considering GlobalJulianTime()
+     */
+    //------------------------------------------------------------------------------
     private void FixedUpdate()
     {
         if (OrbitsCreated)
@@ -279,8 +267,14 @@ public class MainMenuUIManager : MonoBehaviour {
         }        
     }
 
-    // this function appears to consolidate RawTimes together 
-    // sets NewJulianDate to initial date
+    //------------------------------------------------------------------------------
+    // private void AllTimesUpdate()
+    //------------------------------------------------------------------------------
+    /*
+     * Consolidates raw time arrays from each OM into one, global array.
+     * Sets NewJulianDate to initial date.
+     */
+    //------------------------------------------------------------------------------
     private void AllTimesUpdate()
     {
         RawTimes = new List<double>();
@@ -311,8 +305,15 @@ public class MainMenuUIManager : MonoBehaviour {
         NewJulianDate = AllTimes[0];
     }
 
-    //Global Line toggle - defaulted to off, as should be set by Json file
-    //Values for each Orbit Manager able to be changed independantly.
+    //------------------------------------------------------------------------------
+    // private void GlobalToggleLineDraw()
+    //------------------------------------------------------------------------------
+    /*
+     * Distributes line toggle options to OM instances.
+     * Global Line toggle - defaulted to off, as should be set by Json file
+     * Values for each Orbit Manager able to be changed independently.
+     */
+    //------------------------------------------------------------------------------
     public void GlobalToggleLineDraw()
     {
         foreach (GameObject OrbitManager in OrbitManagers)
@@ -324,8 +325,17 @@ public class MainMenuUIManager : MonoBehaviour {
             OM.ObjectGenerator();
         }
     }
-    
-    public void GlobalToggleTags() //global tag toggle, off by default.
+
+    //------------------------------------------------------------------------------
+    // private void GlobalToggleTags()
+    //------------------------------------------------------------------------------
+    /*
+     * Distributes tag toggle options to OM instances.
+     * Global tag toggle, off by default.
+     * Values for each Orbit Manager able to be changed independently.
+     */
+    //------------------------------------------------------------------------------
+    public void GlobalToggleTags()
     {
         foreach (GameObject OrbitManager in OrbitManagers)
         {
@@ -334,8 +344,16 @@ public class MainMenuUIManager : MonoBehaviour {
             OM.UITag = GlobalTagToggle.isOn;
         }
     }
-     
-    public void GlobalLineWidthSet() //Values for each can be set independatly.
+
+    //------------------------------------------------------------------------------
+    // private void GlobalLineWidthSet()
+    //------------------------------------------------------------------------------
+    /*
+     * Distributes line width options to OM instances.
+     * Values for each Orbit Manager able to be changed independently.
+     */
+    //------------------------------------------------------------------------------
+    public void GlobalLineWidthSet() 
     {
         foreach (GameObject OrbitManager in OrbitManagers) //update line width on each orbit manager
         {            
@@ -344,15 +362,30 @@ public class MainMenuUIManager : MonoBehaviour {
         }
     }
 
+    //------------------------------------------------------------------------------
+    // private void GlobalShapeToleranceSet()
+    //------------------------------------------------------------------------------
+    /*
+     * Distributes shape tolerance options to OM instances.
+     */
+    //------------------------------------------------------------------------------
     public void GlobalShapeToleranceSet()
     {
-        foreach (GameObject OrbitManager in OrbitManagers) //update shape tolerance on each orbit manager
+        foreach (GameObject OrbitManager in OrbitManagers)
         {            
             OrbitManagement OM = OrbitManager.GetComponent<OrbitManagement>();
             OM.newtolerance = GlobalShapeToleranceSlider.value;
         }
     }
 
+    //------------------------------------------------------------------------------
+    // private void GlobalScaleSet()
+    //------------------------------------------------------------------------------
+    /*
+     * Distributes scale options to OM instances.
+     * Called on slider change.
+     */
+    //------------------------------------------------------------------------------
     public void GlobalScaleSet()
     {
         NewScaleValue = (int)GlobalScaleSlider.value;
@@ -366,9 +399,17 @@ public class MainMenuUIManager : MonoBehaviour {
         }
     }
 
-    // unused function, checks every second for changes in scale
-    // invoke has been commmented out. Possibly useful if scale changed 
-    // outside of MainMenu slider
+
+    //------------------------------------------------------------------------------
+    // private void GlobalScaleUpdate()
+    //------------------------------------------------------------------------------
+    /*
+     * Unused function, checks every second for changes in scale
+     * invoke has been commmented out. Possibly useful if scale changed 
+     * outside of MainMenu slider. 
+     * Double check if invokes have been cancelled. 
+     */
+    //------------------------------------------------------------------------------
     private void GlobalScaleUpdate()
     {
         JDI = JsonManager.GetComponent<JsonDataImport>();   // unecessary?
@@ -381,8 +422,16 @@ public class MainMenuUIManager : MonoBehaviour {
             InvokeRepeating("OrbitUpdate", .25f, updateFrequency);
             // change 0.25f to user set frequency
         }
-    } 
+    }
 
+    //------------------------------------------------------------------------------
+    // public void GlobalScaleSet()
+    //------------------------------------------------------------------------------
+    /*
+     * Called on time slider change. Effects a global time update by 
+     * changing NewJulianDate
+     */
+    //------------------------------------------------------------------------------
     public void GlobalJulianTime()
     {
         // ensures clicks don't play, and that time doesn't accelerate forwards
@@ -395,9 +444,19 @@ public class MainMenuUIManager : MonoBehaviour {
         }
     }
 
-    // looks up time t, and finds index of next largest entry in array T 
-    // returns this index, or 0 if not found
-    // this should not happen
+    //------------------------------------------------------------------------------
+    // public int IndexFromJD()
+    //------------------------------------------------------------------------------
+    /*
+     * Looks up time t, and finds index of next largest entry in array T 
+     * returns this index, or 0 if not found.
+     * TODO: No error handling if 0 returned!!
+     *
+     * Params:
+     * @T[] - array of times within which to search
+     * @t   - current time to lookup within array
+     */
+    //------------------------------------------------------------------------------
     public int IndexFromJD (double[] T, double t)
     {
         // update JulianDateSlider
@@ -418,9 +477,15 @@ public class MainMenuUIManager : MonoBehaviour {
         return 0;
     }
 
-    // currently invoked by Update() if numbers crunched
-    // *** two other cases!
-    // advances JulianDate by timestep (if toggled)
+
+    //------------------------------------------------------------------------------
+    // public void OrbitUpdate()
+    //------------------------------------------------------------------------------
+    /*
+     * Currently invoked by Update() if AllTimes updated (amongst 2 other cases).
+     * Advances JulianDate based on options. Calls relevant TM methods.
+     */
+    //------------------------------------------------------------------------------
     public void OrbitUpdate()
     {
         if (GlobalRealTimeToggle.isOn) //using realtime
@@ -527,6 +592,14 @@ public class MainMenuUIManager : MonoBehaviour {
         }
     }
 
+    //------------------------------------------------------------------------------
+    // public void ForcedPositionUpdate()
+    //------------------------------------------------------------------------------
+    /*
+     * Forces all orbiters to update their positions. 
+     * Only used by ClosePanel().
+     */
+    //------------------------------------------------------------------------------
     public void ForcedPositionUpdate()
     {
         foreach (GameObject OrbitManager in OrbitManagers)
@@ -541,16 +614,19 @@ public class MainMenuUIManager : MonoBehaviour {
     }
 
     //----------------------------------------------------------------------------
-    // Converts a given JD into DateTime components, applies offset if needed
-    //
-    // ref: GMAT User guide - Spacecraft Epoch
-    // ref: Explanatory Supplement to the Astronomical Almanac, 
-    //      S.E. Urban and P.K. Seidelman (Eds.), 2012
+    // public static void YMDhms(...)
     //----------------------------------------------------------------------------
-    /* @JD - Julian Date
+    /* Converts a given JD into DateTime components, applies offset if needed. 
+     *
+     * Params:
+     * @JD - Julian Date
      * @ref int - DateTime components
      * @offset - GMAT uses a non-conventional MJD offset, this corrects that offset
-    */
+     * 
+     * ref: GMAT User guide - Spacecraft Epoch
+     * ref: Explanatory Supplement to the Astronomical Almanac, 
+     *     S.E. Urban and P.K. Seidelman (Eds.), 2012
+     */
     public static void YMDhms(double JD, ref int Y, ref int M, ref int D, ref int hh, ref int mm, ref int ss,
                                 bool offset)
     {

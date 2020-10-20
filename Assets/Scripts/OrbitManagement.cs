@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//------------------------------------------------------------------------------
+//                              OrbitManagement
+//------------------------------------------------------------------------------
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -213,14 +216,23 @@ public class OrbitManagement : MonoBehaviour
             NewRadius = Radius;
         }
 
-        // why? Line always true. Trace back to what happens when UseRotation toggled
+        // why? Line always true. TODO: trace back to what happens when UseRotation toggled
         if (UseRotation && Line)
         {
             RenderPoints();
         }
     }
 
-    public void ObjectGenerator() //call RenderPoints() function to draw line renderer between all points if Line Bool is true.
+    //------------------------------------------------------------------------------
+    // public void ObjectGenerator()
+    //------------------------------------------------------------------------------
+    /*
+     * Generates a set of orbitclone objects from simplified state array.
+     * Call RenderPoints() function to draw line renderer between all points 
+     * if Line is true.
+     */
+    //------------------------------------------------------------------------------
+    public void ObjectGenerator() 
     {
         if (Line)
         {
@@ -267,6 +279,14 @@ public class OrbitManagement : MonoBehaviour
         }
     }
 
+
+    //------------------------------------------------------------------------------
+    // public void RenderPoints()
+    //------------------------------------------------------------------------------
+    /*
+     * Applies rendering options to lines.
+     */
+    //------------------------------------------------------------------------------
     public void RenderPoints()
     {
         LR.positionCount = 0;
@@ -320,6 +340,16 @@ public class OrbitManagement : MonoBehaviour
         }
     }
 
+    //------------------------------------------------------------------------------
+    // void SetOrbiterColourModel()
+    //------------------------------------------------------------------------------
+    /*
+     * Applies a colour, model or texture to an orbiter depending on what flags
+     * where set by JDI. Contains experimental methods for correctly centreing the 
+     * spacecraft model. 
+     * TODO: change to public void
+     */
+    //------------------------------------------------------------------------------
     void SetOrbiterColourModel()
     {
         #region old method
@@ -349,6 +379,7 @@ public class OrbitManagement : MonoBehaviour
         //    ColourIsSet = true;
         //}
         #endregion
+
         // Orbiter Colour
         if (inheritedMaterial == null) // no matching material in JDI
         {
@@ -364,7 +395,8 @@ public class OrbitManagement : MonoBehaviour
             Orbiter.GetComponent<Renderer>().material = inheritedMaterial;
             //Orbiter.GetComponent<MeshRenderer>().material = inheritedMaterial;
         }
-        // for debugging
+
+        // for debugging in Inspector
         currentMaterial = Orbiter.GetComponent<Renderer>().material;    
         //currentMaterial = Orbiter.GetComponent<MeshRenderer>().material; 
         
@@ -375,21 +407,21 @@ public class OrbitManagement : MonoBehaviour
             Orbiter.GetComponent<Renderer>().enabled = false;
             //Orbiter.GetComponent<MeshRenderer>().enabled = false;
             
-            // scale method
+            // *** scale method
             //float vanishScale = 0.01f;
             // apply inverse scale to scModel, as it is child of Orbiter
             //scModel.transform.localScale =
             //   new Vector3(1 / vanishScale, 1 / vanishScale, 1 / vanishScale);
-            //// "vanish" Orbiter
+            //// "vanish" Orbiter (or change material)
             //Orbiter.transform.localScale = 
             //    new Vector3(vanishScale, vanishScale, vanishScale);
 
-            // find centre and centre to Orbiter method
+            // *** find centre and centre to Orbiter method
             // temp Vector3 used to prevent crash
             // Vector3 modelOffset = scModel.GetComponent<Renderer>().bounds.center;
             // scModel.transform.position = modelOffset;
 
-            // eyeballing -- did this in Editor instead
+            // *** eyeballing method -- did this in Editor instead
             // scModel.transform.position = new Vector3 (0,-1,0);
         }
         else
@@ -399,6 +431,15 @@ public class OrbitManagement : MonoBehaviour
         }
     }
 
+
+    //------------------------------------------------------------------------------
+    // public void FixObjectRotation()
+    //------------------------------------------------------------------------------
+    /*
+     * Potentially unneeded now that attitude data is being generated.
+     * TODO: exactly why was this used? Perhaps implement when no attitude is provided?
+     */
+    //------------------------------------------------------------------------------
     public void FixObjectRotation() // if X or Z rotation has deviated through user manipulation
     {        
         if (transform.eulerAngles.x != 0 || transform.eulerAngles.z != 0) //get current Y rotation, fix X and Z rotations to 0
